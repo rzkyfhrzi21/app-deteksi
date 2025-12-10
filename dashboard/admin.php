@@ -3,22 +3,23 @@ session_start();
 
 include '../functions/koneksi.php';
 // include '../functions/data.php';
-// include '../functions/data_notif.php';
-// include '../functions/insight.php';
 
 // Ambil data sesi
-$sesi_id = $_SESSION['sesi_id'];
+if (empty($_SESSION['sesi_id'])) {
+    header('location: ../auth/logout');
+} else {
+    $sesi_id = $_SESSION['sesi_id'];
 
-$query = "SELECT * FROM users WHERE id_user = '$sesi_id'";
+    $query = "SELECT * FROM users WHERE id_user = '$sesi_id'";
 
-if ($sql = mysqli_query($koneksi, $query)) {
-    $users = mysqli_fetch_array($sql);
-    // Ambil data pengguna
-    $sesi_nama      = isset($users['nama_user']) ? $users['nama_user'] : '';
-    $sesi_username  = isset($users['username']) ? $users['username'] : '';
-    $sesi_img       = isset($users['img_user']) ? $users['img_user'] : '';
+    if ($sql = mysqli_query($koneksi, $query)) {
+        $users = mysqli_fetch_array($sql);
+        // Ambil data pengguna
+        $sesi_nama      = isset($users['nama_user']) ? $users['nama_user'] : '';
+        $sesi_username  = isset($users['username']) ? $users['username'] : '';
+        $sesi_img       = isset($users['img_user']) ? $users['img_user'] : '';
+    }
 }
-
 
 $page = $_GET['page'] ?? 'dashboard'; // Default ke 'dashboard' jika tidak ada page
 
@@ -34,7 +35,7 @@ $page = $_GET['page'] ?? 'dashboard'; // Default ke 'dashboard' jika tidak ada p
 
     <title><?= ucfirst($page); ?> - Panel Admin Deteksi</title>
 
-    <link rel="shortcut icon" href="../assets/pmi-bg.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon">
 
     <?php include 'pages/css.php'; ?>
 </head>
@@ -156,7 +157,7 @@ $page = $_GET['page'] ?? 'dashboard'; // Default ke 'dashboard' jika tidak ada p
                                     <div class="submenu-group-wrapper">
                                         <ul class="submenu-group">
                                             <li class="submenu-item">
-                                                <a href="?page=deteksi" class='submenu-link'>Mulai Deteksi</a>
+                                                <a href="?page=mulai deteksi" class='submenu-link'>Mulai Deteksi</a>
                                             </li>
                                             <li class="submenu-item">
                                                 <a href="?page=riwayat deteksi" class='submenu-link'>Riwayat Deteksi</a>
@@ -211,8 +212,8 @@ $page = $_GET['page'] ?? 'dashboard'; // Default ke 'dashboard' jika tidak ada p
                     case 'registrasi':
                         include 'pages/registrasi_user.php';
                         break;
-                    case 'deteksi':
-                        include 'pages/deteksi.php';
+                    case 'mulai deteksi':
+                        include 'pages/mulai_deteksi.php';
                         break;
                     case 'riwayat deteksi':
                         include 'pages/riwayat_deteksi.php';

@@ -5,8 +5,8 @@ session_start();
 include 'koneksi.php';
 
 if (isset($_POST['btn_login'])) {
-	$username 	= $_POST['username'];
-	$password 	= md5($_POST['password']);
+	$username 		= $_POST['username'];
+	$password 		= md5($_POST['password']);
 
 	$sql_login 		= mysqli_query($koneksi, "SELECT * from users where username = '$username' and password = '$password'");
 	$jumlah_user 	= mysqli_num_rows($sql_login);
@@ -14,7 +14,6 @@ if (isset($_POST['btn_login'])) {
 
 	if ($jumlah_user > 0) {
 		$_SESSION['sesi_id']		= $data_user['id_user'];
-		$_SESSION['sesi_role']		= "admin";
 		$_SESSION['sesi_username']	= $data_user['username'];
 		$_SESSION['sesi_nama']		= $data_user['nama_user'];
 		$_SESSION['sesi_email']		= $data_user['email'];

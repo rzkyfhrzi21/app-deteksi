@@ -1,9 +1,5 @@
 <?php
 
-// Hanya admin yang boleh lihat
-if ($_SESSION['sesi_role'] !== 'admin') {
-    return;
-}
 
 ?>
 <section class="section table">
@@ -58,9 +54,21 @@ if ($_SESSION['sesi_role'] !== 'admin') {
                                 <td class="text-center"><?= $no++; ?></td>
                                 <td><?= htmlspecialchars($nama_user); ?></td>
                                 <td>
-                                    <img src="<?= htmlspecialchars($img_src); ?>"
-                                        alt="Gambar daun padi"
-                                        style="max-width: 80px; max-height: 80px; object-fit: cover;">
+                                    <!-- Bungkus img dengan <a> agar bisa klik & buka modal -->
+                                    <a href="#"
+                                        class="deteksi-thumb"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deteksiModal"
+                                        data-img_src="<?= htmlspecialchars($img_src); ?>"
+                                        data-user="<?= htmlspecialchars($nama_user); ?>"
+                                        data-label="<?= htmlspecialchars($label); ?>"
+                                        data-confidence="<?= round($confidence * 100, 2); ?>%"
+                                        data-catatan="<?= htmlspecialchars($catatan ?? '-'); ?>"
+                                        data-waktu="<?= htmlspecialchars($created_at); ?>">
+                                        <img src="<?= htmlspecialchars($img_src); ?>"
+                                            alt="Gambar daun padi"
+                                            style="max-width: 80px; max-height: 80px; object-fit: cover;">
+                                    </a>
                                 </td>
                                 <td><?= htmlspecialchars($label); ?></td>
                                 <td><?= round($confidence * 100, 2); ?>%</td>
@@ -112,7 +120,7 @@ if ($_SESSION['sesi_role'] !== 'admin') {
                                                 </button>
                                                 <button type="submit"
                                                     name="btn_hapusdeteksi"
-                                                    class="btn btn-primary ms-1">
+                                                    class="btn btn-danger ms-1">
                                                     <span class="d-none d-sm-block">Hapus</span>
                                                 </button>
                                             </div>
@@ -129,3 +137,68 @@ if ($_SESSION['sesi_role'] !== 'admin') {
         </div>
     </div>
 </section>
+
+<!-- MODAL PREVIEW GAMBAR DETEKSI -->
+<div class="modal fade" id="deteksiModal" tabindex="-1" role="dialog" aria-labelledby="deteksiModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deteksiModalTitle">Detail Deteksi</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="deteksiModalImage"
+                    class="d-block mx-auto"
+                    src=""
+                    alt="Gambar Deteksi"
+                    style="max-width: 60%; height: auto;">
+
+                <p><strong>Pengguna:</strong> <span id="deteksiModalUser"></span></p>
+                <p><strong>Penyakit:</strong> <span id="deteksiModalLabel"></span></p>
+                <p><strong>Confidence:</strong> <span id="deteksiModalConfidence"></span></p>
+                <p><strong>Catatan:</strong> <span id="deteksiModalCatatan"></span></p>
+                <p><strong>Waktu:</strong> <span id="deteksiModalWaktu"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JS untuk mengisi modal dengan data gambar yang diklik
+    document.addEventListener('DOMContentLoaded', function() {
+        const thumbs = document.querySelectorAll('.deteksi-thumb');
+        const modalImage = document.getElementById('deteksiModalImage');
+        const modalUser = document.getElementById('deteksiModalUser');
+        const modalLabel = document.getElementById('deteksiModalLabel');
+        const modalConfidence = document.getElementById('deteksiModalConfidence');
+        const modalCatatan = document.getElementById('deteksiModalCatatan');
+        const modalWaktu = document.getElementById('deteksiModalWaktu');
+
+        thumbs.forEach(function(thumb) {
+            thumb.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img_src');
+                const user = this.getAttribute('data-user');
+                const label = this.getAttribute('data-label');
+                const confidence = this.getAttribute('data-confidence');
+                const catatan = this.getAttribute('data-catatan');
+                const waktu = this.getAttribute('data-waktu');
+
+                modalImage.src = imgSrc;
+                modalUser.textContent = user || '-';
+                modalLabel.textContent = label || '-';
+                modalConfidence.textContent = confidence || '-';
+                modalCatatan.textContent = catatan || '-';
+                modalWaktu.textContent = waktu || '-';
+            });
+        });
+    });
+</script>

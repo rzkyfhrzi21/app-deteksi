@@ -19,13 +19,23 @@ from tensorflow.keras.utils import to_categorical
 # KONFIGURASI DASAR
 # ==============================
 
-DATASET_DIR = "dataset"  # folder dataset relatif dari file ini
+# Folder dataset relatif terhadap file ini
+DATASET_DIR = "dataset"
+
+# Nama-nama kelas (sesuai nama folder di dalam dataset/)
 CLASS_NAMES = ['Bacterialblight', 'Blast', 'Brownspot', 'Tungro']
+
+# Mapping nama kelas → angka label (0,1,2,3)
 classes = {name: idx for idx, name in enumerate(CLASS_NAMES)}
+# Kebalikannya: angka label → nama kelas
 inverted_classes = {idx: name for name, idx in classes.items()}
 
+# Ukuran gambar input untuk model CNN (height, width)
 IMG_SIZE = (128, 128)  # harus sama dengan saat inferensi
-LOG_PATH = "log_training.txt"  # file log training
+
+# File log training (akan ditulis oleh callback)
+LOG_PATH = "log_training.txt"
+
 
 # ==============================
 # CALLBACK: PROGRESS BAR
@@ -33,17 +43,18 @@ LOG_PATH = "log_training.txt"  # file log training
 
 class TrainingProgress(Callback):
     """
-    Callback untuk menampilkan progress bar di terminal
-    dengan persentase dan estimasi waktu (ETA).
+    Callback Keras untuk menampilkan progress bar di terminal
+    dengan persentase dan estimasi waktu selesai (ETA).
     """
     def __init__(self, total_epochs, steps_per_epoch):
         super().__init__()
-        self.total_epochs = total_epochs
-        self.epoch_times = []
-        self.epoch_start_time = None
+        self.total_epochs = total_epochs      # jumlah epoch yang ditargetkan
+        self.epoch_times = []                # list durasi tiap epoch
+        self.epoch_start_time = None         # waktu mulai epoch
         self.steps_per_epoch = steps_per_epoch
 
     def on_train_begin(self, logs=None):
+        """Dipanggil sekali saat training dimulai."""
         total_steps = self.total_epochs * self.steps_per_epoch
         print(f"\n[INFO] Training dimulai.")
         print(f"[INFO] Target epochs      : {self.total_epochs}")
@@ -52,23 +63,29 @@ class TrainingProgress(Callback):
         print(f"[INFO] ETA waktu akan lebih akurat setelah 1–2 epoch pertama.\n")
 
     def on_epoch_begin(self, epoch, logs=None):
+        """Simpan waktu mulai epoch."""
         self.epoch_start_time = time.time()
 
     def on_epoch_end(self, epoch, logs=None):
+        """Hitung durasi epoch, update ETA, dan print progress bar."""
         epoch_time = time.time() - self.epoch_start_time
         self.epoch_times.append(epoch_time)
 
+        # Rata-rata durasi epoch sejauh ini
         avg_epoch = sum(self.epoch_times) / len(self.epoch_times)
+
         done_epochs = epoch + 1
         remaining_epochs = max(0, self.total_epochs - done_epochs)
         eta_seconds = remaining_epochs * avg_epoch
 
         percent = done_epochs / self.total_epochs * 100.0
 
+        # Bangun tampilan progress bar ( ███----- )
         bar_len = 30
         filled_len = int(bar_len * done_epochs / self.total_epochs)
         bar = "█" * filled_len + "-" * (bar_len - filled_len)
 
+        # \r untuk overwrite baris sebelumnya (efek progress bar)
         print(
             f"\r[{bar}] {percent:5.1f}% | "
             f"epoch {done_epochs:3d}/{self.total_epochs} | "
@@ -78,6 +95,7 @@ class TrainingProgress(Callback):
         )
 
         if done_epochs == self.total_epochs:
+            # Akhiri baris saat epoch terakhir
             print("\n")
 
 
@@ -87,16 +105,17 @@ class TrainingProgress(Callback):
 
 class TrainingLogger(Callback):
     """
-    Callback untuk menulis log training ke log_training.txt
-    Format: epoch,loss,accuracy,val_loss,val_accuracy,epoch_time,elapsed_time
+    Callback untuk menulis log training ke file log_training.txt
+    Format per baris: epoch,loss,accuracy,val_loss,val_accuracy,epoch_time,elapsed_time
     """
     def __init__(self, log_path):
         super().__init__()
         self.log_path = log_path
-        self.start_time = None
-        self.epoch_start_time = None
+        self.start_time = None        # waktu mulai training
+        self.epoch_start_time = None  # waktu mulai epoch
 
     def on_train_begin(self, logs=None):
+        """Inisialisasi log di awal training."""
         self.start_time = time.time()
         with open(self.log_path, "w", encoding="utf-8") as f:
             f.write("=== LOG TRAINING CNN DAUN PADI ===\n")
@@ -106,13 +125,16 @@ class TrainingLogger(Callback):
             f.write("epoch,loss,accuracy,val_loss,val_accuracy,epoch_time(s),elapsed_time(s)\n")
 
     def on_epoch_begin(self, epoch, logs=None):
+        """Catat waktu mulai epoch."""
         self.epoch_start_time = time.time()
 
     def on_epoch_end(self, epoch, logs=None):
+        """Tulis metrik epoch ke file log."""
         end_time = time.time()
-        epoch_time = end_time - self.epoch_start_time
-        elapsed = end_time - self.start_time
+        epoch_time = end_time - self.epoch_start_time    # durasi epoch
+        elapsed = end_time - self.start_time             # total waktu sejak awal training
 
+        # Ambil metrik dari Keras (bisa None kalau tidak ada)
         loss = logs.get("loss", None)
         acc = logs.get("accuracy", logs.get("acc", None))
         val_loss = logs.get("val_loss", None)
@@ -120,7 +142,7 @@ class TrainingLogger(Callback):
 
         with open(self.log_path, "a", encoding="utf-8") as f:
             f.write(
-                f"{epoch+1},"
+                f"{epoch+1},"                      # epoch (1-based)
                 f"{loss if loss is not None else ''},"
                 f"{acc if acc is not None else ''},"
                 f"{val_loss if val_loss is not None else ''},"
@@ -130,6 +152,7 @@ class TrainingLogger(Callback):
             )
 
     def on_train_end(self, logs=None):
+        """Di akhir training, tulis total waktu."""
         end_time = time.time()
         total = end_time - self.start_time
         with open(self.log_path, "a", encoding="utf-8") as f:
@@ -142,6 +165,10 @@ class TrainingLogger(Callback):
 # ==============================
 
 def load_and_resize_image(file_path, target_shape=IMG_SIZE):
+    """
+    Membaca gambar dengan OpenCV, lalu resize ke ukuran target_shape.
+    Return: array numpy (H, W, 3) atau None kalau gagal baca.
+    """
     image = cv2.imread(file_path)
     if image is None:
         return None
@@ -150,6 +177,10 @@ def load_and_resize_image(file_path, target_shape=IMG_SIZE):
 
 
 def load_image_class_by_directory(image_dir):
+    """
+    Memuat semua gambar di dalam satu folder class (Bacterialblight, dll),
+    hanya yang ber-ekstensi jpg/jpeg/png.
+    """
     image_files = os.listdir(image_dir)
     images = []
     for file in image_files:
@@ -168,8 +199,9 @@ def load_image_class_by_directory(image_dir):
 
 def limit_images(images, limit):
     """
-    Batasi jumlah gambar per class.
-    Jika limit <= 0 → pakai semua.
+    Membatasi jumlah gambar per class.
+    - Jika limit <= 0 → pakai semua gambar.
+    - Jika limit > 0 → pakai hanya 'limit' pertama.
     """
     if limit <= 0 or limit >= len(images):
         return images
@@ -177,6 +209,10 @@ def limit_images(images, limit):
 
 
 def flatten_images(images):
+    """
+    Mengubah setiap gambar 2D/3D (H, W, C) menjadi 1D (H*W*C).
+    Output: numpy array shape (jumlah_gambar, H*W*C)
+    """
     data_flattened = []
     for image in images:
         flattened_image = image.reshape(-1)
@@ -188,9 +224,14 @@ def flatten_images(images):
 
 
 def assign_image_class_label(images, class_label: int):
+    """
+    Flatten gambar dan tambahkan label di kolom terakhir setiap baris.
+    Output: array numpy dengan shape (n_samples, n_features+1)
+    """
     data_flattened = flatten_images(images)
     data_labeled = []
     for image in data_flattened:
+        # concat pixel flatten + [label]
         data_labeled.append(np.concatenate([image, [class_label]]))
 
     print(f"Jumlah data dengan label: {len(data_labeled)}")
@@ -199,6 +240,10 @@ def assign_image_class_label(images, class_label: int):
 
 
 def concat_arrays_to_dataframe(arrays):
+    """
+    Menggabungkan list array (per class) menjadi satu dataset numpy,
+    lalu mengubahnya menjadi DataFrame pandas dengan kolom pixel0..pixelN, label.
+    """
     dataset = np.concatenate(arrays, axis=0)
     num_pix = dataset.shape[1] - 1  # kolom terakhir = label
 
@@ -211,8 +256,9 @@ def concat_arrays_to_dataframe(arrays):
 
 def split_train_test_files(images_lst_lst, num_test_set: int):
     """
-    Bagi gambar per kelas jadi train & test.
-    num_test_set = berapa gambar per kelas yang disisihkan sebagai test.
+    Membagi gambar per kelas menjadi train & test.
+    - num_test_set = jumlah gambar pertama per kelas yang disisihkan untuk test.
+    - sisanya dipakai untuk training.
     """
     train_images_lst_lst = []
     test_images_lst_lst = []
@@ -231,12 +277,13 @@ def split_train_test_files(images_lst_lst, num_test_set: int):
 if __name__ == "__main__":
     print("=== LOAD DATASET ===")
 
-    # Input jumlah gambar per kelas
+    # Minta input user: mau pakai berapa gambar per kelas
     try:
         limit_input = int(input("Masukkan jumlah gambar per class (0 = pakai semua): ").strip())
     except Exception:
-        limit_input = 0
+        limit_input = 0  # kalau input salah, fallback ke 0 (pakai semua)
 
+    # Memuat gambar untuk tiap kelas
     images_by_class = {}
     for class_name in CLASS_NAMES:
         dir_path = os.path.join(DATASET_DIR, class_name)
@@ -249,12 +296,13 @@ if __name__ == "__main__":
         images_by_class[class_name] = imgs
         print(f"[INFO] Dipakai untuk training: {len(imgs)} gambar")
 
+    # Rekap jumlah gambar yang dipakai
     classes_dict = {name: len(imgs) for name, imgs in images_by_class.items()}
     print("\n[INFO] Rekap jumlah gambar per kelas yang dipakai:")
     for k, v in classes_dict.items():
         print(f"  - {k}: {v}")
 
-    # Plot (opsional)
+    # Plot distribusi jumlah gambar (opsional)
     try:
         plt.bar(*zip(*classes_dict.items()))
         plt.title("Jumlah gambar per kelas (dipakai training)")
@@ -265,11 +313,11 @@ if __name__ == "__main__":
     # Susun list gambar sesuai urutan CLASS_NAMES
     images_lst_lst = [images_by_class[name] for name in CLASS_NAMES]
 
-    # Bagi train/test
-    num_test_set = 20  # gambar per kelas untuk test (tidak ikut training)
+    # Bagi dataset: train vs test (test tidak ikut training, hanya untuk evaluasi manual)
+    num_test_set = 20  # jumlah gambar per kelas untuk test
     train_images, test_images = split_train_test_files(images_lst_lst, num_test_set)
 
-    # Susun train set + label ke DataFrame
+    # Susun train set + label ke bentuk array → DataFrame
     images_labeled_arrays = []
     for idx, images in enumerate(train_images):
         labeled = assign_image_class_label(images, idx)
@@ -279,14 +327,17 @@ if __name__ == "__main__":
     print("\nHead df_images:")
     print(df_images.head())
 
-    # Split train / val
+    # ==============================
+    # Split train / validation
+    # ==============================
+
     X_images = df_images.drop("label", axis=1)
     y_images = df_images["label"]
 
     X_train, X_val, y_train, y_val = train_test_split(
         X_images,
         y_images,
-        test_size=0.25,
+        test_size=0.25,   # 25% untuk validasi
         random_state=2,
         shuffle=True
     )
@@ -296,17 +347,22 @@ if __name__ == "__main__":
     print("[INFO] Shape val   X:", X_val.shape)
     print("[INFO] Shape val   y:", y_val.shape)
 
-    # Normalisasi [0,255] → [0,1]
+    # ==============================
+    # Normalisasi & reshape ke RGB
+    # ==============================
+
+    # Normalisasi nilai pixel dari [0, 255] menjadi [0, 1]
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaler.fit(np.array(X_train))
 
     X_train_np = scaler.transform(np.array(X_train))
     X_val_np = scaler.transform(np.array(X_val))
 
-    # reshape ke (H, W, C)
+    # Reshape kembali ke bentuk gambar (N, H, W, 3)
     X_train_RGB = X_train_np.reshape(-1, IMG_SIZE[0], IMG_SIZE[1], 3)
     X_val_RGB = X_val_np.reshape(-1, IMG_SIZE[0], IMG_SIZE[1], 3)
 
+    # Ubah label ke shape (N, 1)
     y_train = y_train.values.reshape(-1, 1)
     y_val = y_val.values.reshape(-1, 1)
 
@@ -316,7 +372,7 @@ if __name__ == "__main__":
     print("[INFO] Shape val   y    :", y_val.shape)
 
     # ==============================
-    # BANGUN MODEL
+    # BANGUN MODEL CNN
     # ==============================
 
     input_shape = X_train_RGB[0].shape
@@ -327,6 +383,7 @@ if __name__ == "__main__":
     print(f"[INFO] Jumlah train images: {num_train_images}")
     print(f"[INFO] Jumlah kelas       : {num_classes}")
 
+    # Model Sequential sederhana dengan 2 Conv block + Dense
     model = Sequential()
     model.add(Input(shape=input_shape))
 
@@ -341,8 +398,9 @@ if __name__ == "__main__":
     model.add(Flatten())
     model.add(Dense(256, activation="relu"))
     model.add(Dropout(0.5))
-    model.add(Dense(num_classes, activation="softmax"))
+    model.add(Dense(num_classes, activation="softmax"))  # output 4 kelas
 
+    # Optimizer SGD dengan learning rate kecil
     opt = SGD(learning_rate=0.0001, momentum=0.9)
     model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 
@@ -355,6 +413,7 @@ if __name__ == "__main__":
     epochs = 100
     batch_size = 64
 
+    # Data augmentation sederhana
     train_datagen = ImageDataGenerator(
         rotation_range=10,
         width_shift_range=0.1,
@@ -362,6 +421,7 @@ if __name__ == "__main__":
         zoom_range=0.1
     )
 
+    # EarlyStopping: berhenti jika val_loss tidak membaik
     monitor_val_loss = EarlyStopping(
         monitor="val_loss",
         min_delta=1e-3,
@@ -371,23 +431,28 @@ if __name__ == "__main__":
         restore_best_weights=True
     )
 
+    # Generator training: augmentasi on-the-fly
     training_data = train_datagen.flow(
         X_train_RGB,
         to_categorical(y_train, num_classes=num_classes),
         batch_size=batch_size
     )
 
+    # Data validasi (tanpa augmentasi)
     validation_data = (
         X_val_RGB,
         to_categorical(y_val, num_classes=num_classes)
     )
 
-    # gunakan panjang generator sebagai steps_per_epoch supaya tidak "ran out of data"
+    # gunakan panjang generator sebagai steps_per_epoch
+    # supaya tidak muncul warning "Your input ran out of data"
     steps_per_epoch = len(training_data)
 
+    # Inisialisasi callback progress bar + logger
     progress_cb = TrainingProgress(total_epochs=epochs, steps_per_epoch=steps_per_epoch)
     logger_cb = TrainingLogger(LOG_PATH)
 
+    # Training model
     history = model.fit(
         training_data,
         epochs=epochs,
@@ -395,7 +460,7 @@ if __name__ == "__main__":
         batch_size=batch_size,
         validation_data=validation_data,
         callbacks=[monitor_val_loss, progress_cb, logger_cb],
-        verbose=0  # pakai progress bar custom, bukan bawaan Keras
+        verbose=0  # pakai progress bar custom, bukan yang default
     )
 
     # ==============================

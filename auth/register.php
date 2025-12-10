@@ -16,8 +16,7 @@ $nama_userLogin =  isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
     <meta name="robots" content="noindex, nofollow">
 
     <title>Registrasi - Deteksi</title>
-    <link rel="shortcut icon" href="../assets/pmi-bg.jpg" type="image/x-icon">
-
+    <link rel="shortcut icon" href="../dashboard/assets/logo.png" type="image/x-icon">
 
     <link rel="shortcut icon" href="../dashboard/assets/pmi.png" type="image/x-icon">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app.css">

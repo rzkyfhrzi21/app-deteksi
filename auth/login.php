@@ -13,7 +13,7 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="robots" content="noindex, nofollow">
-    <link rel="shortcut icon" href="../assets/pmi-bg.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../dashboard/assets/logo.png" type="image/x-icon">
 
     <title>Login - Deteksi</title>
 

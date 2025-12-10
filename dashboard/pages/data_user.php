@@ -1,10 +1,5 @@
     <?php
 
-    // Memeriksa level user
-    if ($_SESSION['sesi_role'] !== 'admin') {
-        return;
-    }
-
     ?>
 
     <!-- Basic Tables start -->
