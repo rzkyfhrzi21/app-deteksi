@@ -19,8 +19,18 @@ if (isset($_POST['btn_login'])) {
 		$_SESSION['sesi_email']		= $data_user['email'];
 
 		if ($data_user['img_user'] == '') {
+			// =====================
+			// CATAT AKSES LOGIN
+			// =====================
+			require_once 'log_akses.php';
+
 			header('Location: ../dashboard/admin?page=profile&id=' . $data_user['id_user']);
 		} else {
+			// =====================
+			// CATAT AKSES LOGIN
+			// =====================
+			require_once 'log_akses.php';
+
 			header('Location: ../dashboard/admin');
 		}
 	} else {

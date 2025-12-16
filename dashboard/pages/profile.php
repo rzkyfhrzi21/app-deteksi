@@ -2,8 +2,6 @@
 
 $id_profile = $_SESSION['sesi_id'];
 
-include '../functions/koneksi.php';
-
 if (!empty($_GET['id'])) {
     $id_user = $_GET['id'];
 } else {
@@ -42,8 +40,9 @@ if ($sql = mysqli_query($koneksi, $query)) {
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Profile</h3>
                 <p class="text-subtitle text-muted">
-                    Hi, Perbarui data anda dengan hati-hati #PahlawanDarah
+                    Perbarui informasi akun Anda untuk menjaga keamanan dan keakuratan data.
                 </p>
+
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -70,7 +69,7 @@ if ($sql = mysqli_query($koneksi, $query)) {
                         </div>
                         <h3 class="mt-3"><?= htmlspecialchars($nama_user); ?></h3>
                         <!-- <p class="text-small text-capitalize text-bold"><?= htmlspecialchars($role); ?></p> -->
-                        <p class="text-small text-capitalize text-bold">Admin</p>
+                        <p class="text-small text-capitalize text-bold">Administrator</p>
                     </div>
                 </div>
             </div>
