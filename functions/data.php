@@ -1,5 +1,5 @@
 <?php
-include_once 'koneksi.php';
+include 'koneksi.php';
 
 /* ===============================
    SET WAKTU DASAR

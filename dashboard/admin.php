@@ -111,21 +111,12 @@ $page = $_GET['page'] ?? 'dashboard';
                             </ul>
                         </li>
 
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class="sidebar-link">
+                        <li class="sidebar-item">
+                            <a href="?page=registrasi" class="sidebar-link">
                                 <i class="bi bi-people-fill"></i>
-                                <span>Kelola Pengguna</span>
+                                <span>Registrasi Pengguna Lain</span>
                             </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="?page=registrasi">Registrasi Pengguna</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="?page=data user">Data Pengguna</a>
-                                </li>
-                            </ul>
                         </li>
-
                         <li class="sidebar-item">
                             <a href="?page=profile" class="sidebar-link">
                                 <i class="bi bi-person-circle"></i>

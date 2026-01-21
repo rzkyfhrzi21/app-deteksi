@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2025 at 06:37 PM
+-- Generation Time: Jan 13, 2026 at 02:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -108,7 +108,9 @@ CREATE TABLE `rekam_akses_web` (
 --
 
 INSERT INTO `rekam_akses_web` (`id_rekam`, `id_user`, `alamat_ip`, `agen_pengguna`, `browser`, `sistem_operasi`, `perangkat`, `tanggal_akses`, `waktu_akses`, `dibuat_pada`) VALUES
-(1, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2025-12-17', '00:25:16', '2025-12-17 00:25:16');
+(1, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2025-12-17', '00:25:16', '2025-12-17 00:25:16'),
+(2, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2025-12-31', '13:17:09', '2025-12-31 13:17:09'),
+(3, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-06', '02:26:31', '2026-01-06 02:26:31');
 
 -- --------------------------------------------------------
 
@@ -182,7 +184,7 @@ ALTER TABLE `hasil_deteksi`
 -- AUTO_INCREMENT for table `rekam_akses_web`
 --
 ALTER TABLE `rekam_akses_web`
-  MODIFY `id_rekam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_rekam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

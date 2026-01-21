@@ -5,6 +5,18 @@ session_start();
 // Koneksi ke database
 require_once 'koneksi.php';
 
+// =====================================
+// MODE API (LOCAL / ONLINE)
+// =====================================
+// ubah ke "local" jika testing localhost
+define('API_MODE', 'online');
+
+if (API_MODE === 'online') {
+    define('API_URL', 'https://domain-api-kamu/predict');
+} else {
+    define('API_URL', 'http://127.0.0.1:5000/predict');
+}
+
 /**
  * =====================================
  * BAGIAN 1: HAPUS RIWAYAT DETEKSI
@@ -55,7 +67,8 @@ if (isset($_POST['btn_hapusdeteksi'])) {
  */
 function deteksi_penyakit($filePath)
 {
-    $apiUrl = "http://127.0.0.1:5000/predict";
+    $apiUrl = API_URL;
+
 
     // Cek apakah file benar-benar ada di server
     if (!file_exists($filePath)) {
