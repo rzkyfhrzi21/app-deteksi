@@ -2,9 +2,7 @@
 session_start();
 
 $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,11 +11,10 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="robots" content="noindex, nofollow">
+
+    <title>Login - Sistem Deteksi</title>
+
     <link rel="shortcut icon" href="../dashboard/assets/logo.png" type="image/x-icon">
-
-    <title>Login - Deteksi</title>
-
-    <link rel="shortcut icon" href="../dashboard/assets/pmi.png" type="image/x-icon">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app.css">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/auth.css">
@@ -25,7 +22,6 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
 
     <style>
         body {
-            /* background-image: url('../dashboard/assets/pmi-bg.jpg'); */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -62,37 +58,48 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
             <div class="row h-100">
                 <div class="card mt-5">
                     <div class="card-header">
-                        <h2 class="auth-title text-danger">Log In Akun</h2>
-                        <p class="auth-subtitle mb-2">Hi, Selamat datang #PahlawanDarah</p>
+                        <h2 class="auth-title text-success">Log In Sistem</h2>
+                        <p class="auth-subtitle mb-2">Hi, Selamat datang di Sistem Deteksi Penyakit Padi 🌱</p>
                     </div>
                     <div class="card-body">
-                        <form class="form" data-parsley-validate action="../functions/cek_login.php" method="post" autocomplete="off">
+                        <form class="form" data-parsley-validate action="../functions/function_auth.php" method="post" autocomplete="off">
                             <div class="form-group position-relative has-icon-left mb-3 has-icon-left">
                                 <label for="username" class="form-label">Username</label>
                                 <div class="position-relative">
                                     <input type="text" name="username" class="form-control form-control-xl"
-                                        placeholder="Username baru" value="<?= $usernameLogin; ?>" id="username" data-parsley-required="true" minlength="5">
+                                        placeholder="Masukkan username" value="<?= htmlspecialchars($usernameLogin); ?>" id="username"
+                                        data-parsley-required="true" minlength="5">
                                     <div class="form-control-icon">
                                         <i class="bi bi-person"></i>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group position-relative has-icon-left mb-3 has-icon-left">
                                 <label for="password" class="form-label">Password <label class="text-danger">*</label></label>
                                 <div class="position-relative">
-                                    <input type="password" name="password" class="form-control form-control-xl" placeholder="*****" id="password" data-parsley-required="true" minlength="5">
+                                    <input type="password" name="password" class="form-control form-control-xl"
+                                        placeholder="*****" id="password" data-parsley-required="true" minlength="5">
                                     <div class="form-control-icon">
                                         <i class="bi bi-shield-lock"></i>
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" name="role" value="pendonor">
 
-                            <button name="btn_login" type="submit" class="btn btn-danger btn-block btn-lg shadow-lg mt-2">Log In</button>
+                            <!-- kalau role kamu memang tidak dipakai, boleh hapus input hidden ini -->
+                            <input type="hidden" name="role" value="admin">
+
+                            <button name="btn_login" type="submit" class="btn btn-success btn-block btn-lg shadow-lg mt-2">
+                                Masuk
+                            </button>
                         </form>
+
                         <div class="text-center mt-3 text-lg fs-4">
-                            <p class="text-gray-600">Tidak mempunyai akun? <a href="register" class="font-bold text-danger">Daftar</a>.</p>
-                            <p>© Luluk Auliani</p>
+                            <p class="text-gray-600">
+                                Belum memiliki akun?
+                                <a href="register" class="font-bold text-success">Daftar</a>.
+                            </p>
+                            <p>© Sistem Deteksi Penyakit Tanaman Padi</p>
                         </div>
                     </div>
                 </div>
@@ -104,6 +111,7 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
     <script src="../dashboard/assets/extensions/parsleyjs/parsley.min.js"></script>
     <script src="../dashboard/assets/static/js/pages/parsley.js"></script>
     <script src="../dashboard/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get("status");
@@ -114,7 +122,7 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
                 Swal.fire({
                     icon: "success",
                     title: "Berhasil!",
-                    text: "Akun berhasil terdaftar. Silakan login 😁",
+                    text: "Akun berhasil dibuat. Silakan masuk ke sistem 🌱",
                     timer: 3000,
                     showConfirmButton: false,
                 });
@@ -122,7 +130,7 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
                 Swal.fire({
                     icon: "success",
                     title: "Berhasil!",
-                    text: "Akun anda telah berhasil dihapus 😁",
+                    text: "Akun berhasil dihapus dari sistem ✅",
                     timer: 3000,
                     showConfirmButton: false,
                 });
@@ -132,7 +140,7 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
                 Swal.fire({
                     icon: "error",
                     title: "Gagal!",
-                    text: "Username atau password salah 🤬",
+                    text: "Username atau password tidak valid ❌",
                     timer: 3000,
                     showConfirmButton: false,
                 });

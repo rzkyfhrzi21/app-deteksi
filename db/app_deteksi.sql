@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2025 at 05:23 PM
+-- Generation Time: Dec 16, 2025 at 06:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,33 +28,23 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `data_penyakit` (
-  `id_penyakit` int(11) NOT NULL,
-  `nm_penyakit` varchar(100) NOT NULL,
-  `nm_latin_penyakit` varchar(150) DEFAULT NULL
+  `id_penyakit` varchar(10) NOT NULL,
+  `nama_penyakit` varchar(100) NOT NULL,
+  `nama_latin` varchar(150) NOT NULL,
+  `desc` text NOT NULL,
+  `solusi` text NOT NULL,
+  `cara_pencegahan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `diagnosa`
+-- Dumping data for table `data_penyakit`
 --
 
-CREATE TABLE `diagnosa` (
-  `id_penyakit` int(11) NOT NULL,
-  `nm_penyakit` varchar(100) NOT NULL,
-  `solusi_penyakit` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gejala`
---
-
-CREATE TABLE `gejala` (
-  `kd_gejala` varchar(10) NOT NULL,
-  `nm_gejala` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `data_penyakit` (`id_penyakit`, `nama_penyakit`, `nama_latin`, `desc`, `solusi`, `cara_pencegahan`) VALUES
+('P001', 'Hawar Daun Bakteri (Bacterial Blight)', 'Xanthomonas oryzae pv. oryzae', 'Penyakit bakteri pada padi yang menyebabkan bercak memanjang berwarna kekuningan hingga cokelat pada tepi daun. Daun dapat mengering seperti terbakar, pertumbuhan terhambat, dan hasil panen menurun terutama pada kondisi lembap dan angin kencang.', 'Gunakan varietas tahan; atur jarak tanam agar sirkulasi udara baik; hindari pemupukan nitrogen berlebih; perbaiki drainase; lakukan sanitasi lahan (buang tanaman/daun terinfeksi). Jika serangan berat, gunakan bakterisida sesuai anjuran setempat (berdasarkan rekomendasi PPL/instansi pertanian).', 'Gunakan benih sehat dan varietas tahan; tanam serempak; rotasi tanaman bila memungkinkan; jaga kebersihan gulma/inang; hindari genangan berkepanjangan; pemupukan berimbang (NPK) dan pengairan teratur.'),
+('P002', 'Penyakit Blas (Blast)', 'Magnaporthe oryzae (syn. Pyricularia oryzae)', 'Penyakit jamur yang menyerang daun, pelepah, hingga malai. Gejala umum berupa bercak berbentuk belah ketupat (spindle) berwarna abu-abu di tengah dan tepi cokelat. Serangan pada leher malai dapat menyebabkan malai patah atau gabah hampa.', 'Gunakan varietas tahan; lakukan pemupukan berimbang (kurangi nitrogen berlebih); perbaiki pengaturan air dan aerasi; buang sisa tanaman sakit; gunakan fungisida bila diperlukan sesuai rekomendasi (mis. fungisida berbahan aktif yang dianjurkan untuk blas).', 'Tanam varietas tahan; tanam serempak; jarak tanam cukup; sanitasi lahan; hindari kelembapan tinggi berkepanjangan; pemupukan seimbang; pengamatan rutin terutama fase vegetatif hingga bunting.'),
+('P003', 'Bercak Cokelat (Brown Spot)', 'Bipolaris oryzae (syn. Helminthosporium oryzae)', 'Penyakit jamur yang ditandai bercak kecil cokelat pada daun, dapat melebar dengan bagian tengah lebih pucat. Umumnya parah pada tanaman yang kekurangan hara (terutama kalium/silikat) atau stres lingkungan, sehingga menurunkan kualitas dan hasil.', 'Perbaiki kesuburan tanah dan pemupukan berimbang (terutama K dan unsur mikro bila diperlukan); gunakan benih sehat; sanitasi sisa tanaman; jika serangan berat dapat menggunakan fungisida sesuai rekomendasi setempat.', 'Gunakan benih bermutu; perlakuan benih bila diperlukan; pemupukan berimbang; pengelolaan air baik; jaga kebersihan lahan; hindari kondisi stres tanaman (kekeringan/defisiensi hara).'),
+('P004', 'Tungro', 'Rice tungro bacilliform virus (RTBV) & Rice tungro spherical virus (RTSV)', 'Penyakit virus pada padi yang menyebabkan daun menguning-oranye, tanaman kerdil, anakan berkurang, dan pertumbuhan terhambat. Penularan utama melalui wereng hijau (Nephotettix spp.), sehingga sering meningkat saat populasi vektor tinggi.', 'Cabut dan musnahkan tanaman sakit sedini mungkin; kendalikan wereng hijau (vektor) dengan pengendalian terpadu (PHT); tanam varietas tahan; tanam serempak dan kurangi sumber inokulum di sekitar lahan.', 'Tanam varietas tahan; tanam serempak; atur waktu tanam untuk memutus siklus vektor; monitoring dan pengendalian wereng hijau; sanitasi gulma/inang; gunakan bibit sehat dan hindari perpindahan bibit dari area terinfeksi.');
 
 -- --------------------------------------------------------
 
@@ -77,33 +67,48 @@ CREATE TABLE `hasil_deteksi` (
 --
 
 INSERT INTO `hasil_deteksi` (`id_deteksi`, `id_user`, `file_path`, `label_penyakit`, `confidence`, `catatan`, `created_at`) VALUES
-(8, '1', 'uploads/deteksi/padi_1765119989.jpg', 'Tungro', 0.315314, '', '2025-12-07 22:06:29'),
-(9, '1', 'uploads/deteksi/padi_1765120029.jpg', 'Brownspot', 0.661801, '', '2025-12-07 22:07:09'),
-(11, '1', 'uploads/deteksi/padi_1765121519.jpg', 'Tungro', 0.791885, 'D', '2025-12-07 22:31:59'),
-(12, '0', 'uploads/deteksi/padi_1765122941.jpg', 'Blast', 0.569969, '', '2025-12-07 22:55:41');
+(9, 'USER001', 'uploads/deteksi/padi_1765120029.jpg', 'Brownspot', 0.661801, '', '2025-12-07 22:07:09'),
+(11, 'USER001', 'uploads/deteksi/padi_1765121519.jpg', 'Tungro', 0.791885, 'D', '2025-12-07 22:31:59'),
+(12, 'USER001', 'uploads/deteksi/padi_1765122941.jpg', 'Blast', 0.569969, '', '2025-12-07 22:55:41'),
+(25, 'USER001', 'uploads/deteksi/padi_1765162077.jpg', 'Bacterialblight', 0.850053, '', '2025-12-08 09:47:57'),
+(27, 'USER001', 'uploads/deteksi/padi_1765165917.jpg', 'Tungro', 0.500701, '', '2025-12-08 10:51:58'),
+(28, 'USER001', 'uploads/deteksi/padi_1765166009.jpg', 'Brownspot', 0.91646, '', '2025-12-08 10:53:29'),
+(29, 'USER001', 'uploads/deteksi/padi_1765166118.jpg', 'Brownspot', 0.805331, '', '2025-12-08 10:55:18'),
+(30, 'USER001', 'uploads/deteksi/padi_1765166908.jpg', 'Brownspot', 0.805331, '', '2025-12-08 11:08:28'),
+(32, 'USER001', 'uploads/deteksi/padi_1765167006.jpg', 'Brownspot', 0.718212, '', '2025-12-08 11:10:06'),
+(33, 'USER002', 'uploads/deteksi/padi_1765167515.jpg', 'Brownspot', 0.718212, 'contoh foto', '2025-12-08 11:18:36'),
+(35, 'USER001', 'uploads/deteksi/padi_1765383163.jpg', 'Bacterialblight', 0.850053, '', '2025-12-10 23:12:43'),
+(36, 'USER001', 'uploads/deteksi/padi_1765384992.jpg', 'Bacterialblight', 0.616724, '', '2025-12-10 23:43:12'),
+(37, 'USER001', 'uploads/deteksi/padi_1765385002.jpg', 'Brownspot', 0.753529, '', '2025-12-10 23:43:22'),
+(38, 'USER001', 'uploads/deteksi/padi_1765385009.jpg', 'Tungro', 0.478412, '', '2025-12-10 23:43:29'),
+(39, 'USER001', 'uploads/deteksi/padi_1765385018.jpg', 'Brownspot', 0.888891, '', '2025-12-10 23:43:38'),
+(40, 'USER001', 'uploads/deteksi/padi_1765385027.jpg', 'Blast', 0.471813, '', '2025-12-10 23:43:48');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `konsultasi`
+-- Table structure for table `rekam_akses_web`
 --
 
-CREATE TABLE `konsultasi` (
-  `kd_gejala` varchar(10) NOT NULL,
-  `nm_gejala` varchar(255) NOT NULL,
-  `id_penyakit` int(11) NOT NULL,
-  `nm_penyakit` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+CREATE TABLE `rekam_akses_web` (
+  `id_rekam` int(11) NOT NULL,
+  `id_user` varchar(20) DEFAULT NULL COMMENT 'ID pengguna jika sudah login (contoh: USER001)',
+  `alamat_ip` varchar(45) NOT NULL COMMENT 'Alamat IP pengunjung',
+  `agen_pengguna` text NOT NULL COMMENT 'User agent lengkap dari browser',
+  `browser` varchar(50) NOT NULL COMMENT 'Nama browser (Chrome, Firefox, dll)',
+  `sistem_operasi` varchar(50) NOT NULL COMMENT 'Sistem operasi pengguna (Windows, Android, dll)',
+  `perangkat` varchar(30) NOT NULL COMMENT 'Jenis perangkat (Desktop / Mobile)',
+  `tanggal_akses` date NOT NULL COMMENT 'Tanggal akses',
+  `waktu_akses` time NOT NULL COMMENT 'Waktu akses (jam:menit:detik)',
+  `dibuat_pada` datetime NOT NULL DEFAULT current_timestamp() COMMENT 'Waktu data dicatat di server'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabel rekaman akses pengguna ke sistem';
 
 --
--- Table structure for table `pertanyaan`
+-- Dumping data for table `rekam_akses_web`
 --
 
-CREATE TABLE `pertanyaan` (
-  `kd_gejala` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `rekam_akses_web` (`id_rekam`, `id_user`, `alamat_ip`, `agen_pengguna`, `browser`, `sistem_operasi`, `perangkat`, `tanggal_akses`, `waktu_akses`, `dibuat_pada`) VALUES
+(1, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2025-12-17', '00:25:16', '2025-12-17 00:25:16');
 
 -- --------------------------------------------------------
 
@@ -112,7 +117,7 @@ CREATE TABLE `pertanyaan` (
 --
 
 CREATE TABLE `users` (
-  `id_user` varchar(15) NOT NULL,
+  `id_user` varchar(25) NOT NULL,
   `nama_user` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -123,18 +128,17 @@ CREATE TABLE `users` (
   `tanggal_lahir` varchar(25) NOT NULL,
   `alamat` text NOT NULL,
   `img_user` varchar(25) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id_user`, `nama_user`, `email`, `username`, `password`, `jenis_kelamin`, `no_telp`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `img_user`, `created_at`, `updated_at`) VALUES
-('USER001', 'Luluk Auliani', 'luluk@gmail.com', 'luluk1', 'fe9359201a4390b39ca893a460de0e6f', 'Perempuan', '085173200421', 'Bandar Lampung', '2025-01-01', 'Bandar Lampung', '69359dbfd90c5.jpg', '2025-12-06 04:27:15', '2025-12-06 04:27:15'),
-('USER003', 'aaaaaaaaa', '', 'aaaaaaaaa', '552e6a97297c53e592208cf97fbb3b60', '', '', '', '', '', '', '2025-12-07 15:42:39', '2025-12-07 15:42:39'),
-('USER021', 'Rizky Fahrezi', 'rizky01011991@gmail.com', 'rizky666', '87345ed882ed478bbb82752f8a9f7acf', 'Laki-laki', '085173200421', 'Tanjung Pinang', '2004-08-21', 'Natar', '69359ebd41d4c.jpg', '2025-12-07 15:35:25', '2025-12-07 15:35:25');
+INSERT INTO `users` (`id_user`, `nama_user`, `email`, `username`, `password`, `jenis_kelamin`, `no_telp`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `img_user`, `updated_at`, `created_at`) VALUES
+('USER001', 'Luluk Auliani', 'luluk@gmail.com', 'luluk1', '2c8ac5fd4a73a621f7c3e63992c979c7', 'Perempuan', '085173200421', 'Bandar Lampung', '2025-01-01', 'Bandar Lampung', '69359dbfd90c5.jpg', '2025-12-06 04:27:15', '2025-12-06 04:27:15'),
+('USER002', 'rahayu1', '', 'rahayu1', '8070fc22ccbd824ba15b95d03c394eb7', '', '', '', '', '', '', '2025-12-08 04:16:38', '2025-12-08 04:16:38');
 
 --
 -- Indexes for dumped tables
@@ -147,35 +151,16 @@ ALTER TABLE `data_penyakit`
   ADD PRIMARY KEY (`id_penyakit`);
 
 --
--- Indexes for table `diagnosa`
---
-ALTER TABLE `diagnosa`
-  ADD PRIMARY KEY (`id_penyakit`);
-
---
--- Indexes for table `gejala`
---
-ALTER TABLE `gejala`
-  ADD PRIMARY KEY (`kd_gejala`);
-
---
 -- Indexes for table `hasil_deteksi`
 --
 ALTER TABLE `hasil_deteksi`
   ADD PRIMARY KEY (`id_deteksi`);
 
 --
--- Indexes for table `konsultasi`
+-- Indexes for table `rekam_akses_web`
 --
-ALTER TABLE `konsultasi`
-  ADD PRIMARY KEY (`kd_gejala`,`id_penyakit`),
-  ADD KEY `fk_konsultasi_penyakit` (`id_penyakit`);
-
---
--- Indexes for table `pertanyaan`
---
-ALTER TABLE `pertanyaan`
-  ADD PRIMARY KEY (`kd_gejala`);
+ALTER TABLE `rekam_akses_web`
+  ADD PRIMARY KEY (`id_rekam`);
 
 --
 -- Indexes for table `users`
@@ -191,30 +176,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `hasil_deteksi`
 --
 ALTER TABLE `hasil_deteksi`
-  MODIFY `id_deteksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_deteksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `rekam_akses_web`
 --
-
---
--- Constraints for table `diagnosa`
---
-ALTER TABLE `diagnosa`
-  ADD CONSTRAINT `fk_diagnosa_penyakit` FOREIGN KEY (`id_penyakit`) REFERENCES `data_penyakit` (`id_penyakit`) ON UPDATE CASCADE;
-
---
--- Constraints for table `konsultasi`
---
-ALTER TABLE `konsultasi`
-  ADD CONSTRAINT `fk_konsultasi_gejala` FOREIGN KEY (`kd_gejala`) REFERENCES `gejala` (`kd_gejala`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_konsultasi_penyakit` FOREIGN KEY (`id_penyakit`) REFERENCES `data_penyakit` (`id_penyakit`) ON UPDATE CASCADE;
-
---
--- Constraints for table `pertanyaan`
---
-ALTER TABLE `pertanyaan`
-  ADD CONSTRAINT `fk_pertanyaan_gejala` FOREIGN KEY (`kd_gejala`) REFERENCES `gejala` (`kd_gejala`) ON UPDATE CASCADE;
+ALTER TABLE `rekam_akses_web`
+  MODIFY `id_rekam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

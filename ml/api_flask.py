@@ -1,6 +1,9 @@
 import os
 import io
 
+# SEMBUNYIKAN LOG INFO/WARNING DARI TENSORFLOW
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+
 from flask import Flask, request, jsonify
 import numpy as np
 import tensorflow as tf

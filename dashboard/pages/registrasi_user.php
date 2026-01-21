@@ -19,8 +19,7 @@ unset($_SESSION['form_data']);
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Registrasi User</h3>
                 <p class="text-subtitle text-muted">
-                    Hi, Ayo bergabung menjadi #PahlawanDarah
-
+                    Buat akun baru untuk mulai menggunakan sistem deteksi penyakit tanaman.
                 </p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">

@@ -1,7 +1,3 @@
-<?php
-
-
-?>
 <section class="section table">
     <div class="card">
         <div class="card-header">
@@ -26,7 +22,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        include '../functions/koneksi.php';
+                        // include '../functions/koneksi.php';
                         $no = 1;
 
                         // Ambil semua riwayat deteksi, join ke users supaya dapat nama
