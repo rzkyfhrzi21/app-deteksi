@@ -10,16 +10,19 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="robots" content="noindex, nofollow">
 
     <title>Registrasi - Sistem Deteksi</title>
     <link rel="shortcut icon" href="../dashboard/assets/logo.png" type="image/x-icon">
 
+    <!-- ================= CORE TEMPLATE (LOCAL) ================= -->
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app.css">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/auth.css">
-    <link rel="stylesheet" href="../dashboard/assets/extensions/sweetalert2/sweetalert2.min.css">
+
+    <!-- ================= SWEETALERT2 CSS (CDN) ================= -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
         body {
@@ -52,6 +55,8 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 </head>
 
 <body>
+
+    <!-- INIT THEME (LOCAL TEMPLATE) -->
     <script src="../dashboard/assets/static/js/initTheme.js"></script>
 
     <div id="app">
@@ -74,7 +79,7 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 
                             <!-- Nama Lengkap -->
                             <div class="form-group position-relative has-icon-left mb-3">
-                                <label class="form-label">Nama Lengkap</label>
+                                <label>Nama Lengkap</label>
                                 <div class="position-relative">
                                     <input type="text"
                                         name="nama_user"
@@ -91,7 +96,7 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 
                             <!-- Username -->
                             <div class="form-group position-relative has-icon-left mb-3">
-                                <label class="form-label">Username</label>
+                                <label>Username</label>
                                 <div class="position-relative">
                                     <input type="text"
                                         name="username"
@@ -108,7 +113,7 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 
                             <!-- Password -->
                             <div class="form-group position-relative has-icon-left mb-3">
-                                <label class="form-label">Password <span class="text-danger">*</span></label>
+                                <label>Password <span class="text-danger">*</span></label>
                                 <div class="position-relative">
                                     <input type="password"
                                         name="password"
@@ -124,7 +129,7 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 
                             <!-- Konfirmasi Password -->
                             <div class="form-group position-relative has-icon-left mb-3">
-                                <label class="form-label">Konfirmasi Password</label>
+                                <label>Konfirmasi Password</label>
                                 <div class="position-relative">
                                     <input type="password"
                                         name="konfirmasi_password"
@@ -138,7 +143,7 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
                                 </div>
                             </div>
 
-                            <!-- Jika role tidak dipakai, boleh dihapus -->
+                            <!-- Role (opsional) -->
                             <input type="hidden" name="role" value="admin">
 
                             <button type="submit"
@@ -161,45 +166,23 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
         </div>
     </div>
 
-    <!-- JS -->
-    <script src="../dashboard/assets/extensions/jquery/jquery.min.js"></script>
-    <script src="../dashboard/assets/extensions/parsleyjs/parsley.min.js"></script>
+    <!-- ================= JS CDN ================= -->
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+
+    <!-- Parsley -->
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2/dist/parsley.min.js"></script>
     <script src="../dashboard/assets/static/js/pages/parsley.js"></script>
-    <script src="../dashboard/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get("status");
-        const action = urlParams.get("action");
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        if (status === "warning") {
-            if (action === "userexist") {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Peringatan!",
-                    text: "Username sudah digunakan. Silakan pilih yang lain.",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
-            } else if (action === "passwordnotsame") {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Peringatan!",
-                    text: "Password dan konfirmasi tidak sama.",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
-            }
-        } else if (status === "error") {
-            Swal.fire({
-                icon: "error",
-                title: "Gagal!",
-                text: "Terjadi kesalahan saat registrasi.",
-                timer: 3000,
-                showConfirmButton: false,
-            });
-        }
-    </script>
+    <!-- ================= SWEETALERT GLOBAL ================= -->
+    <?php include '../dashboard/pages/sweetalert.php'; ?>
+
 </body>
 
 </html>

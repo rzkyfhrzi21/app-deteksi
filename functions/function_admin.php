@@ -27,34 +27,37 @@ $_SESSION['form_data'] = [
 	'email'        => isset($_POST['email']) ? htmlspecialchars(trim($_POST['email'])) : '',
 ];
 
+function redirect_alert($url, $action, $status)
+{
+	$separator = (strpos($url, '?') !== false) ? '&' : '?';
+	header("Location: {$url}{$separator}action={$action}&status={$status}");
+	exit;
+}
+
 function uploadImg()
 {
-	$nama_img 	= $_FILES['img_user']['name'];
-	$size_img 	= $_FILES['img_user']['size'];
-	$tmp_name 	= $_FILES['img_user']['tmp_name'];
+	$nama_img  = $_FILES['img_user']['name'];
+	$size_img  = $_FILES['img_user']['size'];
+	$tmp_name  = $_FILES['img_user']['tmp_name'];
 
-	$valid_img		= ['jpg', 'jpeg', 'png'];
-	$extensi_img	= explode('.', $nama_img);
-	$extensi_img	= strtolower(end($extensi_img));
+	$valid_img     = ['jpg', 'jpeg', 'png'];
+	$extensi_img   = strtolower(pathinfo($nama_img, PATHINFO_EXTENSION));
 
+	// ❌ Ekstensi tidak valid
 	if (!in_array($extensi_img, $valid_img)) {
-		echo "<script>
-				alert('Exstensi  foto profile tidak valid!');
-				location.replace('../dashboard/admin?page=profile');
-			</script>";
-	} else if ($size_img > 1000000) {
-		echo "<script>
-				alert('Ukuran foto profile terlalu besar melebihi 1MB!');
-				location.replace('../dashboard/admin?page=profile);
-			</script>";
-	} else {
-		$img_baru 	= uniqid();
-		$img_baru 	.= '.' . $extensi_img;
-
-		move_uploaded_file($tmp_name, '../dashboard/assets/profile/' . $img_baru);
-
-		return $img_baru;
+		redirect_alert('../dashboard/admin?page=profile', 'invalidext', 'warning');
 	}
+
+	// ❌ Ukuran terlalu besar
+	if ($size_img > 1000000) {
+		redirect_alert('../dashboard/admin?page=profile', 'filesize', 'warning');
+	}
+
+	// ✅ Lolos validasi
+	$img_baru = uniqid() . '.' . $extensi_img;
+	move_uploaded_file($tmp_name, '../dashboard/assets/profile/' . $img_baru);
+
+	return $img_baru;
 }
 
 if (isset($_POST['btn_editfotoakun'])) {

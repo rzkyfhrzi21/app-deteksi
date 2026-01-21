@@ -2,7 +2,6 @@
 session_start();
 
 include '../functions/koneksi.php';
-// include '../functions/data.php';
 
 /* =====================
    CEK SESSION LOGIN

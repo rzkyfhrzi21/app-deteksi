@@ -1,191 +1,168 @@
-<script src="assets/extensions/jquery/jquery.min.js"></script>
+<!-- ================= JQUERY ================= -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+
+<!-- ================= CORE TEMPLATE (LOCAL - CUSTOM) ================= -->
 <script src="assets/static/js/components/dark.js"></script>
 <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/static/js/pages/horizontal-layout.js"></script>
 <script src="assets/compiled/js/app.js"></script>
 
-<!-- Need: Apexcharts -->
-<script src="assets/extensions/apexcharts/apexcharts.min.js"></script>
-<script src="assets/extensions/dayjs/dayjs.min.js"></script>
+<!-- ================= APEXCHARTS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 <script src="assets/static/js/pages/ui-apexchart.js"></script>
 <script src="assets/static/js/pages/dashboard.js"></script>
-<script>
-    // Mengambil data dari PHP
-    let totalLakiLaki = <?= $totalPendonorLakiLaki; ?>; // Menggunakan data dari PHP
-    let totalPerempuan = <?= $totalPendonorPerempuan; ?>; // Menggunakan data dari PHP
 
-    let optionsPendonorJK = {
-        series: [totalLakiLaki, totalPerempuan], // Menggunakan variabel yang diambil dari PHP
+<script>
+    let totalLakiLaki = <?= $totalPendonorLakiLaki; ?>;
+    let totalPerempuan = <?= $totalPendonorPerempuan; ?>;
+
+    new ApexCharts(document.getElementById("chart-pendonor-jk"), {
+        series: [totalLakiLaki, totalPerempuan],
         labels: ["Laki-laki", "Perempuan"],
         colors: ["#435ebe", "#55c6e8"],
         chart: {
             type: "donut",
-            width: "100%",
-            height: "350px",
+            height: 350
         },
         legend: {
-            position: "bottom",
+            position: "bottom"
         },
         plotOptions: {
             pie: {
                 donut: {
-                    size: "30%",
-                },
-            },
-        },
-    };
-
-    var chartPendonorJK = new ApexCharts(
-        document.getElementById("chart-pendonor-jk"),
-        optionsPendonorJK
-    );
-    chartPendonorJK.render();
+                    size: "30%"
+                }
+            }
+        }
+    }).render();
 </script>
-<script>
-    // Mengambil data dari PHP
-    let totalBerhasil = <?= $totalPendonorBerhasil; ?>; // Menggunakan data dari PHP
-    let totalLayak = <?= $totalPendonorLayak; ?>; // Menggunakan data dari PHP
-    let totalGagal = <?= $totalPendonorGagal; ?>; // Menggunakan data dari PHP
 
-    let optionsRiwayatDonor = {
-        series: [totalBerhasil, totalLayak, totalGagal], // Menggunakan variabel yang diambil dari PHP
+<script>
+    let totalBerhasil = <?= $totalPendonorBerhasil; ?>;
+    let totalLayak = <?= $totalPendonorLayak; ?>;
+    let totalGagal = <?= $totalPendonorGagal; ?>;
+
+    new ApexCharts(document.getElementById("chart-riwayat-donor"), {
+        series: [totalBerhasil, totalLayak, totalGagal],
         labels: ["Berhasil Donor", "Layak Tidak Donor", "Gagal Donor"],
         colors: ["#C82232", "#FEDA6F", "#000000"],
         chart: {
             type: "donut",
-            width: "100%",
-            height: "350px",
+            height: 350
         },
         legend: {
-            position: "bottom",
+            position: "bottom"
         },
         plotOptions: {
             pie: {
                 donut: {
-                    size: "30%",
-                },
-            },
-        },
-    };
-
-    var chartRiwayatDonor = new ApexCharts(
-        document.getElementById("chart-riwayat-donor"),
-        optionsRiwayatDonor
-    );
-    chartRiwayatDonor.render();
+                    size: "30%"
+                }
+            }
+        }
+    }).render();
 </script>
-<script>
-    // Mengambil data dari PHP
-    let totalSelesai = <?= $totalKegiatanSelesai; ?>; // Menggunakan data dari PHP
-    let totalBerlangsung = <?= $totalKegiatanBerlangsung; ?>; // Menggunakan data dari PHP
-    let totalSegera = <?= $totalKegiatanSegera; ?>; // Menggunakan data dari PHP
 
-    let optionsRiwayatKegiatan = {
-        series: [totalSelesai, totalBerlangsung, totalSegera], // Menggunakan variabel yang diambil dari PHP
+<script>
+    let totalSelesai = <?= $totalKegiatanSelesai; ?>;
+    let totalBerlangsung = <?= $totalKegiatanBerlangsung; ?>;
+    let totalSegera = <?= $totalKegiatanSegera; ?>;
+
+    new ApexCharts(document.getElementById("chart-riwayat-kegiatan"), {
+        series: [totalSelesai, totalBerlangsung, totalSegera],
         labels: ["Kegiatan Selesai", "Sedang Berlangsung", "Segera"],
         colors: ["#F44336", "#FFC107", "#4CAF50"],
         chart: {
             type: "donut",
-            width: "100%",
-            height: "350px",
+            height: 350
         },
         legend: {
-            position: "bottom",
+            position: "bottom"
         },
         plotOptions: {
             pie: {
                 donut: {
-                    size: "30%",
-                },
-            },
-        },
-    };
-
-    var chartRiwayatKegiatan = new ApexCharts(
-        document.getElementById("chart-riwayat-kegiatan"),
-        optionsRiwayatKegiatan
-    );
-    chartRiwayatKegiatan.render();
+                    size: "30%"
+                }
+            }
+        }
+    }).render();
 </script>
 
-<!-- Custom Sweet Alert 2 -->
-<script src="assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+<!-- ================= SWEETALERT2 ================= -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php include 'sweetalert.php'; ?>
 
-<!-- Choices -->
-<script src="assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+<!-- ================= CHOICES ================= -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="assets/static/js/pages/form-element-select.js"></script>
 
-<!-- Form Parsley -->
-<script src="assets/extensions/parsleyjs/parsley.min.js"></script>
+<!-- ================= PARSLEY ================= -->
+<script src="https://cdn.jsdelivr.net/npm/parsleyjs@2/dist/parsley.min.js"></script>
 <script src="assets/static/js/pages/parsley.js"></script>
 
-<!-- Datetime Picker -->
-<script src="assets/extensions/flatpickr/flatpickr.min.js"></script>
+<!-- ================= FLATPICKR ================= -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="assets/static/js/pages/date-picker.js"></script>
 
-<!-- Image Upload -->
-<script src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
-<script src="assets/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js"></script>
-<script src="assets/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js"></script>
-<script src="assets/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js"></script>
-<script src="assets/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js"></script>
-<script src="assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
-<script src="assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js"></script>
-<script src="assets/extensions/filepond/filepond.js"></script>
-<script src="assets/extensions/toastify-js/src/toastify.js"></script>
+<!-- ================= FILEPOND ================= -->
+<script src="https://cdn.jsdelivr.net/npm/filepond@4/dist/filepond.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="assets/static/js/pages/filepond.js"></script>
 
-
+<!-- ================= CHECKBOX DELETE ================= -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", () => {
         const checkbox = document.getElementById("iaggree");
-        const buttonDeleteAccount = document.getElementById("btn-delete-account");
-
-        if (checkbox && buttonDeleteAccount) { // Pastikan elemen ada
-            checkbox.addEventListener("change", function() {
-                const checked = checkbox.checked;
-                if (checked) {
-                    buttonDeleteAccount.removeAttribute("disabled");
-                } else {
-                    buttonDeleteAccount.setAttribute("disabled", true);
-                }
-            });
+        const button = document.getElementById("btn-delete-account");
+        if (checkbox && button) {
+            checkbox.addEventListener("change", () =>
+                checkbox.checked ? button.removeAttribute("disabled") : button.setAttribute("disabled", true)
+            );
         }
     });
 </script>
 
+<!-- ================= DATATABLES ================= -->
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
 
-
-<!-- Datatables -->
-<script src="assets/extensions/datatables/jquery.dataTables.min.js"></script>
-<script src="assets/extensions/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="assets/extensions/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/extensions/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="assets/extensions/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="assets/extensions/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="assets/extensions/jszip/jszip.min.js"></script>
-<script src="assets/extensions/pdfmake/pdfmake.min.js"></script>
-<script src="assets/extensions/pdfmake/vfs_fonts.js"></script>
-<script src="assets/extensions/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="assets/extensions/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="assets/extensions/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
     $(function() {
         $("#example1").DataTable({
-            "responsive": true,
-            "lengthChange": true,
-            "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            responsive: true,
+            lengthChange: true,
+            autoWidth: false,
+            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
+
+        $("#example2").DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            responsive: true
         });
     });
 </script>

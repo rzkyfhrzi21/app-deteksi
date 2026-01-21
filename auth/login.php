@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
 ?>
 <!DOCTYPE html>
@@ -9,16 +8,20 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="robots" content="noindex, nofollow">
 
     <title>Login - Sistem Deteksi</title>
 
     <link rel="shortcut icon" href="../dashboard/assets/logo.png" type="image/x-icon">
+
+    <!-- ================= CORE TEMPLATE (LOCAL) ================= -->
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app.css">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="../dashboard/assets/compiled/css/auth.css">
-    <link rel="stylesheet" href="../dashboard/assets/extensions/sweetalert2/sweetalert2.min.css">
+
+    <!-- ================= SWEETALERT2 CSS (CDN) ================= -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
         body {
@@ -51,6 +54,8 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
 </head>
 
 <body>
+
+    <!-- INIT THEME (LOCAL TEMPLATE) -->
     <script src="../dashboard/assets/static/js/initTheme.js"></script>
 
     <div id="app">
@@ -59,37 +64,58 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
                 <div class="card mt-5">
                     <div class="card-header">
                         <h2 class="auth-title text-success">Log In Sistem</h2>
-                        <p class="auth-subtitle mb-2">Hi, Selamat datang di Sistem Deteksi Penyakit Padi 🌱</p>
+                        <p class="auth-subtitle mb-2">
+                            Hi, Selamat datang di Sistem Deteksi Penyakit Padi 🌱
+                        </p>
                     </div>
+
                     <div class="card-body">
-                        <form class="form" data-parsley-validate action="../functions/function_auth.php" method="post" autocomplete="off">
-                            <div class="form-group position-relative has-icon-left mb-3 has-icon-left">
+                        <form class="form"
+                            data-parsley-validate
+                            action="../functions/function_auth.php"
+                            method="post"
+                            autocomplete="off">
+
+                            <div class="form-group position-relative has-icon-left mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <div class="position-relative">
-                                    <input type="text" name="username" class="form-control form-control-xl"
-                                        placeholder="Masukkan username" value="<?= htmlspecialchars($usernameLogin); ?>" id="username"
-                                        data-parsley-required="true" minlength="5">
+                                    <input type="text"
+                                        name="username"
+                                        class="form-control form-control-xl"
+                                        placeholder="Masukkan username"
+                                        value="<?= htmlspecialchars($usernameLogin); ?>"
+                                        id="username"
+                                        data-parsley-required="true"
+                                        minlength="5">
                                     <div class="form-control-icon">
                                         <i class="bi bi-person"></i>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group position-relative has-icon-left mb-3 has-icon-left">
-                                <label for="password" class="form-label">Password <label class="text-danger">*</label></label>
+                            <div class="form-group position-relative has-icon-left mb-3">
+                                <label for="password" class="form-label">
+                                    Password <span class="text-danger">*</span>
+                                </label>
                                 <div class="position-relative">
-                                    <input type="password" name="password" class="form-control form-control-xl"
-                                        placeholder="*****" id="password" data-parsley-required="true" minlength="5">
+                                    <input type="password"
+                                        name="password"
+                                        class="form-control form-control-xl"
+                                        placeholder="*****"
+                                        id="password"
+                                        data-parsley-required="true"
+                                        minlength="5">
                                     <div class="form-control-icon">
                                         <i class="bi bi-shield-lock"></i>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- kalau role kamu memang tidak dipakai, boleh hapus input hidden ini -->
                             <input type="hidden" name="role" value="admin">
 
-                            <button name="btn_login" type="submit" class="btn btn-success btn-block btn-lg shadow-lg mt-2">
+                            <button name="btn_login"
+                                type="submit"
+                                class="btn btn-success btn-block btn-lg shadow-lg mt-2">
                                 Masuk
                             </button>
                         </form>
@@ -107,46 +133,23 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
         </div>
     </div>
 
-    <script src="../dashboard/assets/extensions/jquery/jquery.min.js"></script>
-    <script src="../dashboard/assets/extensions/parsleyjs/parsley.min.js"></script>
+    <!-- ================= JS CDN ================= -->
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+
+    <!-- Parsley -->
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2/dist/parsley.min.js"></script>
     <script src="../dashboard/assets/static/js/pages/parsley.js"></script>
-    <script src="../dashboard/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get("status");
-        const action = urlParams.get("action");
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        if (status === "success") {
-            if (action === "registered") {
-                Swal.fire({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: "Akun berhasil dibuat. Silakan masuk ke sistem 🌱",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
-            } else if (action === "deleteuser") {
-                Swal.fire({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: "Akun berhasil dihapus dari sistem ✅",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
-            }
-        } else if (status === "error") {
-            if (action === "login") {
-                Swal.fire({
-                    icon: "error",
-                    title: "Gagal!",
-                    text: "Username atau password tidak valid ❌",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
-            }
-        }
-    </script>
+    <!-- ================= SWEETALERT GLOBAL ================= -->
+    <?php include '../dashboard/pages/sweetalert.php'; ?>
+
 </body>
 
 </html>
