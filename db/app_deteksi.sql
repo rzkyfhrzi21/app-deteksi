@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2026 at 02:11 PM
+-- Generation Time: Jan 21, 2026 at 07:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,28 +62,6 @@ CREATE TABLE `hasil_deteksi` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `hasil_deteksi`
---
-
-INSERT INTO `hasil_deteksi` (`id_deteksi`, `id_user`, `file_path`, `label_penyakit`, `confidence`, `catatan`, `created_at`) VALUES
-(9, 'USER001', 'uploads/deteksi/padi_1765120029.jpg', 'Brownspot', 0.661801, '', '2025-12-07 22:07:09'),
-(11, 'USER001', 'uploads/deteksi/padi_1765121519.jpg', 'Tungro', 0.791885, 'D', '2025-12-07 22:31:59'),
-(12, 'USER001', 'uploads/deteksi/padi_1765122941.jpg', 'Blast', 0.569969, '', '2025-12-07 22:55:41'),
-(25, 'USER001', 'uploads/deteksi/padi_1765162077.jpg', 'Bacterialblight', 0.850053, '', '2025-12-08 09:47:57'),
-(27, 'USER001', 'uploads/deteksi/padi_1765165917.jpg', 'Tungro', 0.500701, '', '2025-12-08 10:51:58'),
-(28, 'USER001', 'uploads/deteksi/padi_1765166009.jpg', 'Brownspot', 0.91646, '', '2025-12-08 10:53:29'),
-(29, 'USER001', 'uploads/deteksi/padi_1765166118.jpg', 'Brownspot', 0.805331, '', '2025-12-08 10:55:18'),
-(30, 'USER001', 'uploads/deteksi/padi_1765166908.jpg', 'Brownspot', 0.805331, '', '2025-12-08 11:08:28'),
-(32, 'USER001', 'uploads/deteksi/padi_1765167006.jpg', 'Brownspot', 0.718212, '', '2025-12-08 11:10:06'),
-(33, 'USER002', 'uploads/deteksi/padi_1765167515.jpg', 'Brownspot', 0.718212, 'contoh foto', '2025-12-08 11:18:36'),
-(35, 'USER001', 'uploads/deteksi/padi_1765383163.jpg', 'Bacterialblight', 0.850053, '', '2025-12-10 23:12:43'),
-(36, 'USER001', 'uploads/deteksi/padi_1765384992.jpg', 'Bacterialblight', 0.616724, '', '2025-12-10 23:43:12'),
-(37, 'USER001', 'uploads/deteksi/padi_1765385002.jpg', 'Brownspot', 0.753529, '', '2025-12-10 23:43:22'),
-(38, 'USER001', 'uploads/deteksi/padi_1765385009.jpg', 'Tungro', 0.478412, '', '2025-12-10 23:43:29'),
-(39, 'USER001', 'uploads/deteksi/padi_1765385018.jpg', 'Brownspot', 0.888891, '', '2025-12-10 23:43:38'),
-(40, 'USER001', 'uploads/deteksi/padi_1765385027.jpg', 'Blast', 0.471813, '', '2025-12-10 23:43:48');
-
 -- --------------------------------------------------------
 
 --
@@ -110,7 +88,16 @@ CREATE TABLE `rekam_akses_web` (
 INSERT INTO `rekam_akses_web` (`id_rekam`, `id_user`, `alamat_ip`, `agen_pengguna`, `browser`, `sistem_operasi`, `perangkat`, `tanggal_akses`, `waktu_akses`, `dibuat_pada`) VALUES
 (1, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2025-12-17', '00:25:16', '2025-12-17 00:25:16'),
 (2, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2025-12-31', '13:17:09', '2025-12-31 13:17:09'),
-(3, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-06', '02:26:31', '2026-01-06 02:26:31');
+(3, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-06', '02:26:31', '2026-01-06 02:26:31'),
+(4, 'USER003', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '00:17:42', '2026-01-22 00:17:42'),
+(5, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '00:17:52', '2026-01-22 00:17:52'),
+(6, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:14:54', '2026-01-22 01:14:54'),
+(7, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:16:07', '2026-01-22 01:16:07'),
+(8, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:23:53', '2026-01-22 01:23:53'),
+(9, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:29:56', '2026-01-22 01:29:56'),
+(10, 'USER004', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:33:42', '2026-01-22 01:33:42'),
+(11, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:35:12', '2026-01-22 01:35:12'),
+(12, 'USER001', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'Chrome', 'Windows', 'Desktop', '2026-01-22', '01:37:05', '2026-01-22 01:37:05');
 
 -- --------------------------------------------------------
 
@@ -139,8 +126,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nama_user`, `email`, `username`, `password`, `jenis_kelamin`, `no_telp`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `img_user`, `updated_at`, `created_at`) VALUES
-('USER001', 'Luluk Auliani', 'luluk@gmail.com', 'luluk1', '2c8ac5fd4a73a621f7c3e63992c979c7', 'Perempuan', '085173200421', 'Bandar Lampung', '2025-01-01', 'Bandar Lampung', '69359dbfd90c5.jpg', '2025-12-06 04:27:15', '2025-12-06 04:27:15'),
-('USER002', 'rahayu1', '', 'rahayu1', '8070fc22ccbd824ba15b95d03c394eb7', '', '', '', '', '', '', '2025-12-08 04:16:38', '2025-12-08 04:16:38');
+('USER001', 'Luluk Auliani', 'luluk@gmail.com', 'luluk1', '2c8ac5fd4a73a621f7c3e63992c979c7', 'Perempuan', '085173200421', 'Bandar Lampung', '2025-01-01', 'Bandar Lampung', '697109ed85b4c.jpg', '2025-12-06 04:27:15', '2025-12-06 04:27:15'),
+('USER002', 'rahayu1', '', 'rahayu1', '8070fc22ccbd824ba15b95d03c394eb7', '', '', '', '', '', '', '2025-12-08 04:16:38', '2025-12-08 04:16:38'),
+('USER003', 'testing1', 'testing1@gmail.com', 'testing1', '6b7330782b2feb4924020cc4a57782a9', 'Laki-laki', '08123451111', 'testing1', '2026-01-22', 'testing1', '69710a3063331.jpg', '2026-01-21 17:17:36', '2026-01-21 17:17:36'),
+('USER004', 'rizky1', '', 'rizky1', '96ba210301f08a2eb677df096c3d48fe', '', '', '', '', '', '', '2026-01-21 18:33:37', '2026-01-21 18:33:37');
 
 --
 -- Indexes for dumped tables
@@ -178,13 +167,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `hasil_deteksi`
 --
 ALTER TABLE `hasil_deteksi`
-  MODIFY `id_deteksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_deteksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `rekam_akses_web`
 --
 ALTER TABLE `rekam_akses_web`
-  MODIFY `id_rekam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_rekam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

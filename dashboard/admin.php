@@ -111,12 +111,6 @@ $page = $_GET['page'] ?? 'dashboard';
                         </li>
 
                         <li class="sidebar-item">
-                            <a href="?page=registrasi" class="sidebar-link">
-                                <i class="bi bi-people-fill"></i>
-                                <span>Registrasi Pengguna Lain</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
                             <a href="?page=profile" class="sidebar-link">
                                 <i class="bi bi-person-circle"></i>
                                 <span>Profil Saya</span>
@@ -146,12 +140,6 @@ $page = $_GET['page'] ?? 'dashboard';
 
             <?php
             switch ($page) {
-                case 'registrasi':
-                    include 'pages/registrasi_user.php';
-                    break;
-                case 'data user':
-                    include 'pages/data_user.php';
-                    break;
                 case 'mulai deteksi':
                     include 'pages/mulai_deteksi.php';
                     break;

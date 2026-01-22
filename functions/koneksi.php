@@ -17,9 +17,9 @@ if ($host === 'localhost' || strpos($host, '127.0.0.1') !== false) {
 } else {
     // UNTUK PENGGUNAAN HOSTING SERVERMIKRO
     $server     = 'localhost';
-    $username   = 'mhjvvvci_Deteksi';
-    $password   = 'v449yvBvbKXCmrMutSg6';
-    $database   = 'mhjvvvci_Deteksi';
+    $username   = 'aru1gb4i_app_deteksi';
+    $password   = 'cQKAx7hmVfZmKNTnkHJg';
+    $database   = 'aru1gb4i_app_deteksi';
 }
 
 $koneksi    = mysqli_connect($server, $username, $password, $database);
