@@ -1,0 +1,55 @@
+📌 FORM PENGUMPULAN DATA ORDER WEBSITE @rzkydev666
+
+A. DATA WEBSITE
+Mohon lengkapi data berikut untuk proses pembuatan website:
+
+1. Nama Website : App Deteksi
+2. Deskripsi Website : Sistem deteksi penyakit tanaman padi
+3. Arsitektur / Teknologi :
+   - HTML
+   - CSS
+   - JavaScript
+   - Bootstrap
+   - PHP Native
+   - Python3 + Flask
+4. Penerapan Algoritma / Backend :
+   - Python + Flask (Training model, Load model untuk Deteksi penyakit pada foto yang diupload)
+5. Harga / Paket yang Dipilih : 800k
+
+
+B. DATA DIRI PEMESAN
+
+1. Nama Lengkap : Luluk Auliani
+2. NPM : 2211010073
+3. Username Instagram : @lulukaulani
+4. Email Aktif : lulukaulani70@gmail.com
+5. Nomor WhatsApp : 082377680709
+6. Kelas Mata Kuliah / Judul Skripsi : PENGEMBANGAN SISTEM DETEKSI PENYAKIT TANAMAN PADI BERBASIS MACHINE LEARNING MENGGUNAKAN METODE CONVOLUTIONAL NEURAL NETWORK (CNN)
+7. Nama Dosen Pembimbing (opsional) : Pembimbing (Pak Rio Kurniawan), Penguji (Pak Aziz)
+8. Alamat : -
+
+
+C. KETENTUAN TAMBAHAN
+
+🎨 Logo website disiapkan oleh pemesan  
+(dapat dibuat melalui Canva, Photoshop, atau tools desain lainnya).
+
+🔐 Kerahasiaan Data  
+Seluruh data pribadi pengguna/pelanggan yang diberikan akan dijaga
+kerahasiaannya sepenuhnya, digunakan hanya untuk keperluan pembuatan
+website, dan tidak akan dibagikan kepada pihak lain tanpa persetujuan
+dari pemesan.
+
+💰 Ketentuan Pembayaran  
+Pembuatan website akan dimulai setelah pembayaran uang muka (DP)
+sebesar 50% dari total biaya yang disepakati diterima.  
+Pelunasan atau pembayaran lanjutan akan ditentukan berdasarkan
+kesepakatan dan perjanjian selanjutnya antara kedua belah pihak.
+
+💳 Pembayaran atas nama Rizky Fahrezi melalui:
+SeaBank : 901130571809  
+DANA    : 085173200421  
+
+📲 Untuk update portofolio dan informasi lainnya,  
+silakan follow Instagram:
+👉 @rzkydev666

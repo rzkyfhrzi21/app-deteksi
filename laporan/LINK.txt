@@ -1,0 +1,5 @@
+Link Download Zip Kode Website HTML CSS JS PHP Tanpa Python (htdocs/app_deteksi)
+https://github.com/rzkyfhrzi21/app-deteksi/archive/refs/heads/master.zip
+
+Link Download Zip Server Python + Flask Penyimpanan Model & Deteksi Foto Yang Diupload (htdocs/app_deteksi_ml)
+https://github.com/rzkyfhrzi21/app-deteksi_ml/archive/refs/heads/master.zip
