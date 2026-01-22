@@ -12,7 +12,7 @@ require_once 'koneksi.php';
 define('API_MODE', 'online');
 
 if (API_MODE === 'online') {
-    define('API_URL', 'https://domain-api-kamu/predict');
+    define('API_URL', 'https://app-deteksi.onrender.com/predict');
 } else {
     define('API_URL', 'http://127.0.0.1:5000/predict');
 }
