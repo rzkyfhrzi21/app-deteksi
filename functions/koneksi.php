@@ -8,17 +8,17 @@
 $host = $_SERVER['HTTP_HOST'];
 
 // Memeriksa apakah link adalah localhost
-if ($host === 'localhost' || strpos($host, '127.0.0.1') !== false) {
+if ($host === 'localhost:8090' || strpos($host, '127.0.0.1') !== false) {
     // UNTUK PENGGUNAAN LOCALHOST
-    $server     = 'localhost';
+    $server     = '127.0.0.1:3309';
     $username   = 'root';
     $password   = '';
-    $database   = 'app_deteksi';
+    $database   = 'app-deteksi';
 } else {
     // UNTUK PENGGUNAAN HOSTING SERVERMIKRO
     $server     = 'localhost';
     $username   = 'aru1gb4i_app_deteksi';
-    $password   = 'cQKAx7hmVfZmKNTnkHJg';
+    $password   = '';
     $database   = 'aru1gb4i_app_deteksi';
 }
 
