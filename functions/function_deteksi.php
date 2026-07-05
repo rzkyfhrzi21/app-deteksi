@@ -17,6 +17,29 @@ if (API_MODE === 'online') {
     define('API_URL', 'http://127.0.0.1:5000/predict');
 }
 
+// =====================================
+// MAPPING LABEL MODEL → NAMA TAMPILAN
+// =====================================
+// Label dari model TFLite mengikuti nama folder dataset (tanpa spasi).
+// Mapping ini mengubahnya menjadi nama yang rapi untuk ditampilkan di UI.
+// Database tetap menyimpan label asli model (untuk konsistensi query).
+define('LABEL_MAP', [
+    'Healthy'          => 'Healthy (Daun Sehat)',
+    'Bacterialblight'  => 'Bacterial Blight',
+    'Blast'            => 'Blast',
+    'Brownspot'        => 'Brown Spot',
+    'Tungro'           => 'Tungro',
+]);
+
+/**
+ * Ubah label model mentah → nama tampilan yang rapi.
+ * Jika label tidak dikenal, kembalikan apa adanya.
+ */
+function label_display(string $label): string
+{
+    return LABEL_MAP[$label] ?? $label;
+}
+
 /**
  * =====================================
  * BAGIAN 1: HAPUS RIWAYAT DETEKSI
@@ -93,7 +116,7 @@ function deteksi_penyakit($filePath)
         CURLOPT_POST           => true,
         CURLOPT_RETURNTRANSFER => true,   // agar hasil dikembalikan sebagai string
         CURLOPT_POSTFIELDS     => $postFields,
-        CURLOPT_TIMEOUT        => 30,     // batas waktu 30 detik
+        CURLOPT_TIMEOUT        => 60,     // batas waktu 60 detik (antisipasi cold start Render.com)
     ]);
 
     // Eksekusi request ke Flask
@@ -287,20 +310,23 @@ if (isset($koneksi) && $koneksi && $id_user) {
  */
 
 if ($hasil_api['status'] === 'success') {
+    $label_mentah = $hasil_api['label'];          // label asli dari model (disimpan ke DB)
     $_SESSION['hasil_deteksi'] = [
-        'label'       => $hasil_api['label'],       // label penyakit
-        'confidence'  => $hasil_api['confidence'],  // nilai confidence (0–1)
-        'file_public' => $file_public,              // path gambar untuk <img>
-        'message'     => null,                      // tidak ada error
-        'waktu'       => $created_at,               // waktu deteksi (sama seperti di DB)
+        'label'         => $label_mentah,          // asli → untuk DB
+        'label_display' => label_display($label_mentah), // rapi → untuk UI
+        'confidence'    => $hasil_api['confidence'],
+        'file_public'   => $file_public,
+        'message'       => null,
+        'waktu'         => $created_at,
     ];
 } else {
     $_SESSION['hasil_deteksi'] = [
-        'label'       => 'Error',
-        'confidence'  => 0,
-        'file_public' => $file_public,                         // masih tampilkan gambar jika perlu
-        'message'     => $hasil_api['message'] ?? 'Terjadi kesalahan.', // pesan error dari Flask / lokal
-        'waktu'       => $created_at,                          // tetap isi waktu proses
+        'label'         => 'Error',
+        'label_display' => 'Error',
+        'confidence'    => 0,
+        'file_public'   => $file_public,
+        'message'       => $hasil_api['message'] ?? 'Terjadi kesalahan.',
+        'waktu'         => $created_at,
     ];
 }
 
