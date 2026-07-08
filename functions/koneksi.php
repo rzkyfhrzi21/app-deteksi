@@ -8,18 +8,24 @@
 $host = $_SERVER['HTTP_HOST'];
 
 // Memeriksa apakah link adalah localhost
-if ($host === 'localhost:8090' || strpos($host, '127.0.0.1') !== false) {
+if ($host === 'localhost:8090' || strpos($host, '127.0.0.1:8090') !== false) {
     // UNTUK PENGGUNAAN LOCALHOST
     $server     = '127.0.0.1:3309';
+    $username   = 'root';
+    $password   = '';
+    $database   = 'app-deteksi';
+} else if ($host === 'localhost' || strpos($host, '127.0.0.1') !== false) {
+    // UNTUK PENGGUNAAN LOCALHOST
+    $server     = 'localhost';
     $username   = 'root';
     $password   = '';
     $database   = 'app-deteksi';
 } else {
     // UNTUK PENGGUNAAN HOSTING SERVERMIKRO
     $server     = 'localhost';
-    $username   = 'aru1gb4i_app_deteksi';
-    $password   = '';
-    $database   = 'aru1gb4i_app_deteksi';
+    $username   = 'uucdjd7c_lulukauliani';
+    $password   = 'lulukaulianilulukauliani';
+    $database   = 'uucdjd7c_app-deteksi';
 }
 
 $koneksi    = mysqli_connect($server, $username, $password, $database);
