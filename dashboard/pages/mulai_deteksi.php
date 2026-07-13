@@ -33,11 +33,6 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                 <h3>Deteksi Penyakit Daun Padi</h3>
                 <p class="text-subtitle text-muted">
                     Upload foto daun padi untuk dideteksi secara otomatis menggunakan model CNN.
-                    <br><br>
-                    <button type="button" class="btn btn-sm btn-outline-info" id="btnPingRender" onclick="pingRender()">
-                        <i class="bi bi-lightning-charge"></i> Bangunkan Server AI (Render)
-                    </button>
-                    <span id="pingResult" class="ms-2" style="font-size: 0.9em;"></span>
                 </p>
 
                 <script>
@@ -45,20 +40,33 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                     const btn = document.getElementById('btnPingRender');
                     const res = document.getElementById('pingResult');
                     btn.disabled = true;
-                    btn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> Membangunkan...';
-                    res.innerHTML = '<span class="text-warning">Harap tunggu, server Render gratis butuh 1-2 menit untuk bangun dari tidur...</span>';
+                    btn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> Ping...';
+                    res.innerHTML = '<span class="text-warning">Harap tunggu...</span>';
                     
-                    fetch('https://app-deteksi.onrender.com/')
-                        .then(response => {
-                            res.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> Server AI Aktif & Siap Menerima Gambar!</span>';
+                    fetch('https://app-deteksi.onrender.com/health', { mode: 'no-cors' })
+                        .then(() => {
+                            res.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> Sinyal terkirim! (Render Aktif)</span>';
                         })
                         .catch(error => {
-                            res.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Gagal menghubungi server. (Bisa jadi masalah CORS, tapi server mungkin sudah bangun)</span>';
+                            res.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Gagal ping.</span>';
                         })
                         .finally(() => {
                             btn.disabled = false;
-                            btn.innerHTML = '<i class="bi bi-lightning-charge"></i> Bangunkan Server AI (Render)';
+                            btn.innerHTML = '<i class="bi bi-activity"></i> Tes Koneksi';
                         });
+                }
+                
+                function showLoading() {
+                    // Validasi Parsley (jika dipakai)
+                    if (typeof $(document) !== 'undefined' && $('#formUpload').parsley && !$('#formUpload').parsley().isValid()) {
+                        return false;
+                    }
+                    const btn = document.getElementById('btnSubmitUpload');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> Sedang Memproses... (Bisa 1-2 menit)';
+                    // Trigger form submit secara manual karena button di-disable
+                    document.getElementById('formUpload').submit();
+                    return false;
                 }
                 </script>
             </div>
@@ -99,15 +107,26 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
         <div class="row match-height">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Form Upload Gambar Daun Padi</h4>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Form Upload Gambar Daun Padi</h4>
+                        <div>
+                            <span id="pingResult" class="me-2" style="font-size: 0.85em;"></span>
+                            <button type="button" class="btn btn-sm btn-outline-info" id="btnPingRender" onclick="pingRender()">
+                                <i class="bi bi-activity"></i> Tes Koneksi
+                            </button>
+                        </div>
                     </div>
 
                     <form action="../functions/function_deteksi.php"
                         method="post"
                         enctype="multipart/form-data"
                         class="form"
+                        id="formUpload"
+                        onsubmit="return showLoading();"
                         data-parsley-validate> <!-- data-parsley-validate = validasi form di sisi browser sebelum dikirim -->
+                        
+                        <!-- Hidden input agar $_POST['btn_upload_daun'] tetap terkirim meski button asli disabled -->
+                        <input type="hidden" name="btn_upload_daun" value="1">
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row">
@@ -170,7 +189,7 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-end">
                                         <button type="submit"
-                                            name="btn_upload_daun"
+                                            id="btnSubmitUpload"
                                             class="btn btn-primary me-1 mb-1">
                                             Upload &amp; Deteksi
                                         </button>
