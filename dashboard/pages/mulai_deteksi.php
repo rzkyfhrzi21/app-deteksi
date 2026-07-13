@@ -33,7 +33,34 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                 <h3>Deteksi Penyakit Daun Padi</h3>
                 <p class="text-subtitle text-muted">
                     Upload foto daun padi untuk dideteksi secara otomatis menggunakan model CNN.
+                    <br><br>
+                    <button type="button" class="btn btn-sm btn-outline-info" id="btnPingRender" onclick="pingRender()">
+                        <i class="bi bi-lightning-charge"></i> Bangunkan Server AI (Render)
+                    </button>
+                    <span id="pingResult" class="ms-2" style="font-size: 0.9em;"></span>
                 </p>
+
+                <script>
+                function pingRender() {
+                    const btn = document.getElementById('btnPingRender');
+                    const res = document.getElementById('pingResult');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> Membangunkan...';
+                    res.innerHTML = '<span class="text-warning">Harap tunggu, server Render gratis butuh 1-2 menit untuk bangun dari tidur...</span>';
+                    
+                    fetch('https://app-deteksi.onrender.com/')
+                        .then(response => {
+                            res.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> Server AI Aktif & Siap Menerima Gambar!</span>';
+                        })
+                        .catch(error => {
+                            res.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Gagal menghubungi server. (Bisa jadi masalah CORS, tapi server mungkin sudah bangun)</span>';
+                        })
+                        .finally(() => {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="bi bi-lightning-charge"></i> Bangunkan Server AI (Render)';
+                        });
+                }
+                </script>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <!-- Navigasi roti remah (breadcrumb): Dashboard > Mulai Deteksi -->
