@@ -23,5 +23,6 @@ jobs:
         SOURCE: "./"
         REMOTE_HOST: ${{ secrets.SSH_HOST }}
         REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+        REMOTE_PORT: ${{ secrets.SSH_PORT }}
         TARGET: "/home/uucdjd7c/deteksi-padi.ngekos.mikrosite.web.id" 
         EXCLUDE: "/.git/, /.github/, /db/, /referensi/, *.sql, /Zzz/, README.md"
