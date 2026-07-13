@@ -43,7 +43,7 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                     btn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> Ping...';
                     // Panggil script PHP lokal untuk nge-ping Render. 
                     // Ini menghindari masalah CORS di browser karena request dilakukan oleh backend PHP.
-                    fetch('../functions/ping_render.php')
+                    fetch('/functions/ping_render.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.status === 'success') {
