@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: 📦 Compress files
-      run: tar -czvf deploy.tar.gz --exclude='deploy.tar.gz' --exclude='.git' --exclude='.github' --exclude='db' --exclude='referensi' --exclude='*.sql' --exclude='Zzz' --exclude='README.md' .
+      run: tar -czvf ../deploy.tar.gz --exclude='.git' --exclude='.github' --exclude='db' --exclude='referensi' --exclude='*.sql' --exclude='Zzz' --exclude='README.md' . && mv ../deploy.tar.gz .
 
     - name: 🚀 Upload via SCP
       uses: appleboy/scp-action@v0.1.4
