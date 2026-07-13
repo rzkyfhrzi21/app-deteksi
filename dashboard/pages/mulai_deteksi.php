@@ -41,14 +41,19 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                     const res = document.getElementById('pingResult');
                     btn.disabled = true;
                     btn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> Ping...';
-                    res.innerHTML = '<span class="text-warning">Harap tunggu...</span>';
-                    
-                    fetch('https://app-deteksi.onrender.com/health', { mode: 'no-cors' })
-                        .then(() => {
-                            res.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> Sinyal terkirim! (Render Aktif)</span>';
+                    // Panggil script PHP lokal untuk nge-ping Render. 
+                    // Ini menghindari masalah CORS di browser karena request dilakukan oleh backend PHP.
+                    fetch('../functions/ping_render.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                res.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> Sinyal terkirim! (Render Aktif)</span>';
+                            } else {
+                                res.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Gagal: ' + data.message + '</span>';
+                            }
                         })
                         .catch(error => {
-                            res.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Gagal ping.</span>';
+                            res.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Gagal memanggil script ping.</span>';
                         })
                         .finally(() => {
                             btn.disabled = false;
