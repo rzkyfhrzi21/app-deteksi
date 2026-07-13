@@ -1,197 +1,157 @@
-# 🌾 Sistem Deteksi Penyakit Daun Padi
+# 🌾 app-deteksi — Aplikasi Web Deteksi Penyakit Daun Padi
 
-Aplikasi web berbasis **PHP + MySQL** untuk mendeteksi jenis penyakit pada daun tanaman padi secara otomatis menggunakan **model kecerdasan buatan (AI/CNN)**. Pengguna cukup upload foto daun padi, dan sistem akan langsung memberikan hasil diagnosis beserta tingkat keyakinannya.
-
-> **Catatan:** Aplikasi ini terhubung ke API Flask (repo `app-deteksi_ml`) yang berjalan di server terpisah (Render.com) sebagai "otak" pemroses gambar.
-
----
-
-## ✨ Fitur Utama
-
-| Fitur | Keterangan |
-|---|---|
-| 🔐 Login & Registrasi | Sistem akun pengguna dengan keamanan sesi |
-| 🌿 Deteksi Penyakit | Upload foto daun → AI langsung analisis dan berikan hasil |
-| 📋 Riwayat Deteksi | Lihat semua hasil deteksi sebelumnya dalam tabel |
-| 👤 Kelola Profil | Update data pribadi, foto profil, username & password |
-| 📊 Dashboard Statistik | Ringkasan: total pengguna, total deteksi, rata-rata confidence |
+Ini adalah folder **aplikasi web PHP** yang diakses pengguna melalui browser.
+Aplikasi ini menghubungkan pengguna dengan model AI (CNN) yang berjalan di server Flask terpisah (`app-deteksi_ml`).
 
 ---
 
-## 🗂️ Struktur Folder
+## ✨ Fitur Utama: Deteksi Penyakit Daun Padi dengan CNN
+
+Sistem ini memungkinkan pengguna untuk **mengunggah foto daun padi** dan secara otomatis mendeteksi jenis penyakitnya menggunakan **model Convolutional Neural Network (CNN)**.
+
+### 🔬 Cara Kerja Fitur Deteksi (Alur Lengkap)
+
+```
+Pengguna upload foto daun padi
+        ↓
+[mulai_deteksi.php]          ← Halaman form upload (di browser)
+        ↓  (POST multipart)
+[function_deteksi.php]       ← Proses: validasi, simpan file, panggil API
+        ↓  (cURL POST ke /predict)
+[api_flask.py]               ← Server Flask: preprocess gambar + jalankan model CNN
+        ↓  (model/model_fp16.tflite)
+Model CNN menganalisis gambar → 5 angka probabilitas
+        ↓
+Hasil JSON dikembalikan ke PHP
+        ↓
+[function_deteksi.php]       ← Simpan hasil ke tabel 'hasil_deteksi' di database
+        ↓
+[mulai_deteksi.php]          ← Tampilkan hasil: nama penyakit + confidence (%)
+```
+
+### 🦠 Penyakit yang Dapat Dideteksi
+
+| Label Model       | Tampilan UI          | Keterangan                        |
+|-------------------|----------------------|-----------------------------------|
+| `Healthy`         | Healthy (Daun Sehat) | Daun normal, tidak ada penyakit   |
+| `Bacterialblight` | Bacterial Blight     | Hawar bakteri — ujung daun cokelat|
+| `Blast`           | Blast                | Blas/busuk leher — bercak belah ketupat |
+| `Brownspot`       | Brown Spot           | Bercak cokelat — titik-titik bulat |
+| `Tungro`          | Tungro               | Virus tungro — daun menguning     |
+
+### 📁 File Kunci Fitur Deteksi
+
+| File | Peran |
+|------|-------|
+| `dashboard/pages/mulai_deteksi.php` | **Halaman utama** — form upload gambar & tampilan hasil |
+| `functions/function_deteksi.php` | **Otak proses** — validasi file, panggil API Flask, simpan ke DB |
+| `functions/ping_render.php` | **Cek koneksi** — ping server Flask sebelum upload |
+| `functions/data.php` | **Label mapper** — konversi nama label model → tampilan rapi |
+| `dashboard/pages/riwayat_deteksi.php` | **Riwayat** — tabel semua hasil deteksi yang pernah dilakukan |
+
+---
+
+## 📂 Struktur Folder Lengkap
 
 ```
 app-deteksi/
-├── auth/                        → Halaman autentikasi pengguna
-│   ├── login.php                → Halaman form login
-│   ├── register.php             → Halaman form pendaftaran akun baru
-│   └── logout.php               → Proses keluar / hapus sesi login
 │
-├── dashboard/                   → Halaman-halaman utama setelah login
-│   ├── admin.php                → Router halaman (membaca ?page=... dari URL)
-│   ├── assets/                  → CSS, JS, gambar, foto profil pengguna
-│   │   └── profile/             → Foto profil pengguna yang diupload
-│   └── pages/                   → Konten setiap halaman dashboard
-│       ├── dashboard.php        → Beranda: 4 kartu statistik sistem
-│       ├── mulai_deteksi.php    → Form upload gambar + tampilan hasil deteksi
-│       ├── riwayat_deteksi.php  → Tabel semua riwayat deteksi + modal hapus
-│       ├── profile.php          → Form edit profil, foto, akun, hapus akun
-│       ├── sweetalert.php       → Notifikasi popup otomatis (sukses/gagal/peringatan)
-│       ├── js.php               → Kumpulan skrip JavaScript yang dipakai di seluruh dashboard
-│       └── css.php              → CSS tambahan khusus dashboard
+├── auth/                          ← Halaman autentikasi pengguna
+│   ├── login.php                  ← Halaman form masuk (username + password)
+│   ├── register.php               ← Halaman form daftar akun baru
+│   ├── logout.php                 ← Proses keluar — hapus sesi login
+│   └── index.php                  ← Redirect ke login
 │
-├── functions/                   → Logika backend (proses data dari form)
-│   ├── function_auth.php        → Proses login & registrasi akun publik
-│   ├── function_deteksi.php     → Proses upload gambar, kirim ke API Flask, simpan ke DB
-│   ├── function_admin.php       → Proses update profil, foto, username, password, hapus akun
-│   ├── data.php                 → Query statistik dashboard & fungsi bantu label_display()
-│   ├── koneksi.php              → Koneksi ke database MySQL
-│   └── log_akses.php            → Rekam jejak login ke tabel rekam_akses_web
+├── dashboard/                     ← Halaman-halaman setelah login
+│   ├── admin.php                  ← Controller utama dashboard (router halaman)
+│   ├── index.php                  ← Redirect ke admin.php
+│   ├── assets/                    ← Aset statis (CSS, JS, gambar, template)
+│   │   ├── compiled/css/          ← CSS template (app.css, app-dark.css, auth.css)
+│   │   ├── static/js/             ← JavaScript template & inisialisasi tema
+│   │   ├── profile/               ← Folder foto profil pengguna (upload di sini)
+│   │   └── logo.png               ← Logo sistem
+│   └── pages/                     ← Konten setiap halaman (di-include oleh admin.php)
+│       ├── dashboard.php          ← Beranda — 4 kartu statistik utama sistem
+│       ├── mulai_deteksi.php      ← ⭐ FITUR UTAMA — form upload & hasil deteksi
+│       ├── riwayat_deteksi.php    ← Tabel riwayat semua hasil deteksi
+│       ├── profile.php            ← Halaman profil & manajemen akun pengguna
+│       ├── css.php                ← Kumpulan tag <link CSS> yang di-include template
+│       ├── js.php                 ← Kumpulan tag <script JS> yang di-include template
+│       └── sweetalert.php         ← Notifikasi popup (SweetAlert2) untuk semua halaman
 │
-└── uploads/
-    └── deteksi/                 → Folder penyimpanan foto daun padi yang diupload pengguna
+├── functions/                     ← Logika backend PHP (diakses via form POST)
+│   ├── koneksi.php                ← Koneksi database MySQL (auto-deteksi localhost/hosting)
+│   ├── function_auth.php          ← Proses login & registrasi pengguna
+│   ├── function_admin.php         ← Proses edit profil, ganti foto, hapus akun
+│   ├── function_deteksi.php       ← ⭐ INTI DETEKSI — upload foto, panggil Flask, simpan ke DB
+│   ├── data.php                   ← Query statistik dashboard + fungsi label_display()
+│   ├── log_akses.php              ← Catat rekam jejak login ke tabel rekam_akses_web
+│   ├── ping_render.php            ← Ping /health ke server Flask via cURL (bypass CORS)
+│   └── index.php                  ← Keamanan: blokir akses langsung ke folder functions/
+│
+├── uploads/                       ← Folder penyimpanan file yang diupload pengguna
+│   └── deteksi/                   ← Foto daun padi yang dikirim untuk dideteksi
+│                                    (nama file: padi_[timestamp].jpg/png)
+│
+├── db/
+│   └── app_deteksi.sql            ← File SQL untuk membuat database & tabel awal
+│
+├── laporan/                       ← (Opsional) File laporan / ekspor data
+│
+├── .htaccess                      ← Konfigurasi URL routing Apache
+├── index.php                      ← Entry point utama — redirect ke dashboard/login
+└── README.md                      ← File ini
 ```
 
 ---
 
-## 🗄️ Tabel Database yang Dipakai
+## 🗄️ Struktur Database
+
+Database bernama `app-deteksi` (lokal) / `uucdjd7c_app-deteksi` (hosting).
 
 | Tabel | Fungsi |
-|---|---|
-| `users` | Menyimpan data akun pengguna (id, nama, username, password hash, foto, dsb.) |
-| `hasil_deteksi` | Menyimpan setiap hasil deteksi (gambar, label penyakit, confidence, catatan, waktu) |
-| `rekam_akses_web` | Mencatat setiap akses login (untuk statistik total pengunjung) |
+|-------|--------|
+| `users` | Data akun pengguna (id_user, nama, username, password, foto, dll.) |
+| `hasil_deteksi` | Hasil setiap proses deteksi (label penyakit, confidence, file foto, waktu) |
+| `rekam_akses_web` | Log setiap kali pengguna login (IP, browser, OS, waktu) |
 
 ---
 
-## 🚀 Cara Instalasi Lokal
+## 🔗 Konfigurasi Koneksi ke Server Flask (API ML)
 
-### Prasyarat
-- **XAMPP** (PHP 8.0+, MySQL, Apache)
-- Browser modern (Chrome, Firefox, Edge)
-- API Flask dari repo `app-deteksi_ml` sudah berjalan
+File yang perlu diperhatikan saat mengganti URL server:
 
-### Langkah Instalasi
-1. Clone atau copy folder `app-deteksi` ke dalam:
-   ```
-   C:\xampp\htdocs\App Deteksi\app-deteksi\
-   ```
-
-2. Import database ke phpMyAdmin:
-   - Buka `http://localhost/phpmyadmin`
-   - Buat database baru (contoh: `db_deteksi_padi`)
-   - Import file `.sql` yang tersedia
-
-3. Konfigurasi koneksi database di file `functions/koneksi.php`:
-   ```php
-   $host     = 'localhost';
-   $user     = 'root';
-   $password = '';
-   $database = 'db_deteksi_padi';
-   ```
-
-4. Pastikan API Flask sudah berjalan. Cek pengaturan di `functions/function_deteksi.php`:
-   ```php
-   define('API_MODE', 'local');  // Ubah ke 'local' untuk testing
-   // API berjalan di: http://127.0.0.1:5000
-   ```
-
-5. Buka browser dan akses:
-   ```
-   http://localhost/App%20Deteksi/app-deteksi/auth/register
-   ```
-
----
-
-## 📖 Cara Penggunaan Aplikasi
-
-### Langkah 1 — Daftar Akun Baru
-1. Buka halaman: `http://localhost/App%20Deteksi/app-deteksi/auth/register`
-2. Isi formulir pendaftaran:
-   - **Nama Lengkap** (min. 5 karakter)
-   - **Username** (min. 5 karakter, harus unik)
-   - **Password** (min. 5 karakter)
-   - **Konfirmasi Password** (harus sama dengan password)
-3. Klik tombol **"Daftar"**
-4. Jika berhasil, Anda akan diarahkan ke halaman login
-
-### Langkah 2 — Login
-1. Buka halaman: `http://localhost/App%20Deteksi/app-deteksi/auth/login`
-2. Masukkan **Username** dan **Password** yang sudah didaftarkan
-3. Klik tombol **"Masuk"**
-
-### Langkah 3 — Lengkapi Profil (Wajib Pertama Kali)
-> ⚠️ Jika foto profil belum diupload, sistem akan otomatis mengarahkan ke halaman profil terlebih dahulu.
-
-1. Di halaman **Profil**, upload foto profil Anda
-2. Klik tombol **"Update Foto"**
-3. Lengkapi data pribadi (nama, no. telepon, email, tanggal lahir, alamat)
-4. Klik **"Simpan Data Pribadi"**
-
-### Langkah 4 — Mulai Deteksi Penyakit
-1. Klik menu **"Mulai Deteksi"** di sidebar
-2. Klik tombol **"Pilih Gambar Daun Padi"** dan pilih foto dari komputer Anda
-   - Format yang diterima: **JPG / JPEG / PNG**
-   - Ukuran maksimal: **2 MB**
-   - Tips: Ambil foto daun yang jelas, cukup cahaya, dan fokus pada daun
-3. (Opsional) Isi kolom **Catatan** dengan keterangan tambahan
-4. Klik tombol **"Upload & Deteksi"**
-5. Tunggu beberapa detik (server sedang memproses gambar)
-
-### Langkah 5 — Baca Hasil Deteksi
-Setelah selesai, hasil akan muncul di bawah form:
-- **Penyakit terdeteksi**: Nama jenis penyakit atau "Healthy (Daun Sehat)"
-- **Confidence**: Tingkat keyakinan model (contoh: 93.45% = model 93% yakin)
-- **Waktu deteksi**: Waktu saat deteksi dilakukan
-
-### Langkah 6 — Lihat Riwayat Deteksi
-1. Klik menu **"Riwayat Deteksi"** di sidebar
-2. Tabel menampilkan semua hasil deteksi yang pernah dilakukan
-3. Klik thumbnail gambar untuk melihat detail lengkapnya
-4. Klik tombol **"Hapus"** untuk menghapus riwayat tertentu
-
----
-
-## 🌿 Kelas Penyakit yang Dideteksi
-
-| Label Model | Tampilan di Aplikasi | Keterangan |
-|---|---|---|
-| `Healthy` | Healthy (Daun Sehat) | Daun normal, tidak ada penyakit |
-| `Bacterialblight` | Bacterial Blight | Penyakit hawar bakteri (Xanthomonas oryzae) |
-| `Blast` | Blast | Penyakit blas / busuk leher (Magnaporthe oryzae) |
-| `Brownspot` | Brown Spot | Penyakit bercak cokelat (Bipolaris oryzae) |
-| `Tungro` | Tungro | Penyakit tungro (virus, disebarkan wereng hijau) |
-
----
-
-## 🔗 Koneksi ke API Flask
-
-File yang mengatur koneksi: [`functions/function_deteksi.php`](functions/function_deteksi.php)
-
-```php
-define('API_MODE', 'online');  // Ganti ke 'local' untuk testing lokal
-
-// Mode online → server Render.com
-define('API_URL', 'https://app-deteksi.onrender.com/predict');
-
-// Mode local → server Flask di komputer sendiri
-// define('API_URL', 'http://127.0.0.1:5000/predict');
+```
+functions/function_deteksi.php   → ubah konstanta API_URL (define('API_URL', '...'))
+functions/ping_render.php        → ubah variabel $healthUrl
 ```
 
-> ⚠️ **Perhatian:** Server Render.com versi gratis bisa "tidur" dan butuh waktu 50-60 detik untuk bangun kembali (*cold start*). Timeout sudah diatur ke **60 detik** untuk mengantisipasi ini.
+**Mode API:**
+```php
+// Di function_deteksi.php, baris ~12
+define('API_MODE', 'online');  // 'online' = Render.com | 'local' = localhost:5000
+```
 
 ---
 
-## 🔒 Keamanan
+## 🚀 Cara Menjalankan Secara Lokal
 
-- Password disimpan dalam format **MD5 hash** (bukan teks biasa)
-- Semua input dibersihkan dengan `htmlspecialchars()` untuk mencegah XSS
-- Akses halaman dilindungi dengan pemeriksaan sesi login
+1. Pastikan **Laragon** sudah berjalan (Apache + MySQL aktif)
+2. Import database: buka phpMyAdmin → import file `db/app_deteksi.sql`
+3. Ubah `API_MODE` di `functions/function_deteksi.php` menjadi `'local'`
+4. Jalankan server Flask dari folder `app-deteksi_ml/` (lihat README di sana)
+5. Buka browser: `http://localhost/App Deteksi/app-deteksi/`
 
 ---
 
-## 📝 Catatan Pengembangan
+## ⚙️ Teknologi yang Digunakan
 
-- Dibuat untuk keperluan **Tugas Akhir / Skripsi**
-- Teknologi: PHP native, MySQL, Bootstrap 5, SweetAlert2, DataTables
-- Model AI: CNN (Convolutional Neural Network) dengan 5 kelas output
+| Teknologi | Versi | Kegunaan |
+|-----------|-------|----------|
+| PHP | 8.x | Backend logika & template halaman |
+| MySQL | 8.x | Database penyimpanan data |
+| Bootstrap 5 | CDN | Framework CSS tampilan |
+| SweetAlert2 | 11 | Notifikasi popup interaktif |
+| ParsleyJS | 2 | Validasi form di sisi browser |
+| jQuery | 3.7.1 | Manipulasi DOM & AJAX |
+| Mazer Template | - | Tema dashboard admin |
