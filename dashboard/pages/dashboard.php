@@ -46,12 +46,12 @@ include '../functions/data.php'; // Jalankan query statistik dari data.php, hasi
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="stats-icon purple mb-2">
-                                        <i class="iconly-boldShow"></i> <!-- Ikon mata / pengunjung -->
-                                    </div>
-                                    <h6 class="text-muted font-semibold">Total Pengunjung</h6>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon purple mb-0">
+                                    <i class="iconly-boldShow"></i> <!-- Ikon mata / pengunjung -->
+                                </div>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Total Pengunjung</h6>
                                     <h6 class="font-extrabold mb-0"><?= $totalPengunjung ?></h6> <!-- Angka dari data.php -->
                                 </div>
                             </div>
@@ -67,12 +67,12 @@ include '../functions/data.php'; // Jalankan query statistik dari data.php, hasi
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="stats-icon blue mb-2">
-                                        <i class="iconly-boldProfile"></i> <!-- Ikon profil orang -->
-                                    </div>
-                                    <h6 class="text-muted font-semibold">Total Pengguna</h6>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon blue mb-0">
+                                    <i class="iconly-boldProfile"></i> <!-- Ikon profil orang -->
+                                </div>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Total Pengguna</h6>
                                     <h6 class="font-extrabold mb-0"><?= $totalPengguna ?></h6> <!-- Angka dari data.php -->
                                 </div>
                             </div>
@@ -88,12 +88,12 @@ include '../functions/data.php'; // Jalankan query statistik dari data.php, hasi
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="stats-icon green mb-2">
-                                        <i class="iconly-boldAdd-User"></i> <!-- Ikon tambah pengguna -->
-                                    </div>
-                                    <h6 class="text-muted font-semibold">Pengguna Baru (Bulan Ini)</h6>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon green mb-0">
+                                    <i class="iconly-boldAdd-User"></i> <!-- Ikon tambah pengguna -->
+                                </div>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Pengguna Baru</h6>
                                     <h6 class="font-extrabold mb-0"><?= $totalPenggunaBaru ?></h6> <!-- Angka dari data.php -->
                                 </div>
                             </div>
@@ -109,12 +109,12 @@ include '../functions/data.php'; // Jalankan query statistik dari data.php, hasi
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="stats-icon red mb-2">
-                                        <i class="iconly-boldTime-Circle"></i> <!-- Ikon jam -->
-                                    </div>
-                                    <h6 class="text-muted font-semibold">Waktu Sekarang</h6>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stats-icon red mb-0">
+                                    <i class="iconly-boldTime-Circle"></i> <!-- Ikon jam -->
+                                </div>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Waktu Sekarang</h6>
                                     <h6 class="font-extrabold mb-0"><?= $pukul ?> WIB</h6> <!-- Jam dari data.php (format H:i) -->
                                 </div>
                             </div>
