@@ -169,9 +169,20 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="container">
-            <p class="text-muted mb-1">&copy; <?= date('Y') ?> Sistem Pakar Deteksi Penyakit Padi. Hak cipta dilindungi.</p>
-            <small class="text-muted font-semibold">Dibangun untuk mendukung inovasi Pertanian Indonesia.</small>
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="mb-2 mb-md-0">
+                <p class="text-muted mb-0">
+                    &copy; <?= date('Y') ?> Sistem Deteksi Penyakit Tanaman Padi.
+                </p>
+            </div>
+            <div>
+                <p class="text-muted mb-0">
+                    Dikembangkan oleh
+                    <a href="https://www.instagram.com/lulukaulani/" target="_blank" class="text-decoration-none fw-bold text-primary">
+                        Luluk Auliani
+                    </a>
+                </p>
+            </div>
         </div>
     </footer>
 

@@ -120,3 +120,13 @@ if (isset($_POST['btn_register'])) {
     }
     exit;
 }
+
+// ============================================================
+// PENGAMANAN AKSES LANGSUNG (Direct Access Prevention)
+// Jika seseorang mencoba membuka file ini langsung dari URL
+// tanpa mengirim form (tanpa menekan tombol login atau register),
+// maka akan langsung ditendang kembali ke halaman login.
+// Ini menghindari blank page atau pesan error dari server.
+// ============================================================
+header("Location: ../auth/login");
+exit;
