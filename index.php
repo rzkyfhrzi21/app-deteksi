@@ -37,11 +37,11 @@
             background-color: #f2f7ff;
         }
         /* Navbar Custom */
-        .navbar-brand { font-weight: 800; color: #435ebe !important; font-size: 1.5rem; }
+        .navbar-brand { font-weight: 800; color: #198754 !important; font-size: 1.5rem; }
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #435ebe 0%, #293a7d 100%);
+            background: linear-gradient(135deg, #198754 0%, #146c43 100%);
             color: white;
             padding: 120px 0 160px;
             border-bottom-left-radius: 80px;
@@ -74,12 +74,12 @@
             height: 100%;
             border: 1px solid rgba(0,0,0,0.02);
         }
-        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(67, 94, 190, 0.15); }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(25, 135, 84, 0.15); }
         .feature-icon {
             font-size: 3.5rem;
-            color: #435ebe;
+            color: #198754;
             margin-bottom: 25px;
-            background: #eef2ff;
+            background: #e8f5e9;
             width: 90px;
             height: 90px;
             display: inline-flex;
@@ -102,8 +102,8 @@
                 <span class="d-none d-sm-inline">Sistem Deteksi Padi</span>
             </a>
             <div class="d-flex gap-2">
-                <a href="auth/login" class="btn btn-outline-primary px-3 px-md-4 rounded-pill font-bold">Masuk</a>
-                <a href="auth/register" class="btn btn-primary px-3 px-md-4 rounded-pill font-bold shadow-sm d-none d-sm-inline-block">Daftar Gratis</a>
+                <a href="auth/login" class="btn btn-outline-success px-3 px-md-4 rounded-pill font-bold">Masuk</a>
+                <a href="auth/register" class="btn btn-success px-3 px-md-4 rounded-pill font-bold shadow-sm d-none d-sm-inline-block">Daftar Gratis</a>
             </div>
         </div>
     </nav>
@@ -116,7 +116,7 @@
                     <h1>Lindungi Panen Anda dengan Sistem Pakar Kami</h1>
                     <p>Sistem pendeteksi penyakit daun padi. Unggah foto daun padi Anda dan biarkan model klasifikasi kami mendiagnosis penyakitnya secara instan dan akurat berdasarkan data latih yang spesifik.</p>
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
-                        <a href="auth/register" class="btn btn-light btn-lg px-5 rounded-pill font-bold text-primary shadow-lg">Coba Sekarang</a>
+                        <a href="auth/register" class="btn btn-light btn-lg px-5 rounded-pill font-bold text-success shadow-lg">Coba Sekarang</a>
                         <a href="#fitur" class="btn btn-outline-light btn-lg px-4 rounded-pill">Pelajari Fitur</a>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
             <div class="card-body p-5 my-3">
                 <h2 class="font-black mb-3 text-dark">Siap Menyelamatkan Panen Anda?</h2>
                 <p class="text-muted mb-4 lead mx-auto" style="max-width: 600px;">Bergabunglah dengan para petani dan akademisi lainnya. Identifikasi dini penyakit adalah kunci untuk panen yang melimpah.</p>
-                <a href="auth/register" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg font-bold">
+                <a href="auth/register" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-lg font-bold">
                     <i class="bi bi-person-plus-fill me-2"></i> Buat Akun Gratis
                 </a>
             </div>
@@ -178,7 +178,7 @@
             <div>
                 <p class="text-muted mb-0">
                     Dikembangkan oleh
-                    <a href="https://www.instagram.com/lulukaulani/" target="_blank" class="text-decoration-none fw-bold text-primary">
+                    <a href="https://www.instagram.com/lulukaulani/" target="_blank" class="text-decoration-none fw-bold text-success">
                         Luluk Auliani
                     </a>
                 </p>

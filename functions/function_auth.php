@@ -28,8 +28,29 @@ if (isset($_POST['btn_login'])) {
     if ($result->num_rows > 0) {
         $data_user = $result->fetch_assoc();
         
-        // 4. Verifikasi Password BCRYPT (Mencegah peretasan MD5)
+        $login_berhasil = false;
+
+        // 4. Verifikasi Password BCRYPT (Utama)
         if (password_verify($password, $data_user['password'])) {
+            $login_berhasil = true;
+        } 
+        // 4b. Jika gagal BCRYPT, cek apakah ini akun lama yang masih menggunakan MD5
+        elseif (md5($password) === $data_user['password']) {
+            $login_berhasil = true;
+            
+            // SEAMLESS UPGRADE: Karena MD5 sudah tidak aman, kita langsung perbarui
+            // password pengguna ini di database menjadi BCRYPT secara otomatis
+            // tanpa perlu menyuruh mereka reset password!
+            $new_hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            $stmt_update = $koneksi->prepare("UPDATE users SET password = ? WHERE id_user = ?");
+            if ($stmt_update) {
+                $stmt_update->bind_param("ss", $new_hashed_password, $data_user['id_user']);
+                $stmt_update->execute();
+                $stmt_update->close();
+            }
+        }
+        
+        if ($login_berhasil) {
             
             // 5. Cegah Session Fixation
             session_regenerate_id(true);
