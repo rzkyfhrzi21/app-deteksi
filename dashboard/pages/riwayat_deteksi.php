@@ -121,12 +121,12 @@ require_once __DIR__ . '/../../functions/data.php';
                                         class="deteksi-thumb"
                                         data-bs-toggle="modal"
                                         data-bs-target="#deteksiModal"
-                                        data-img_src="<?= htmlspecialchars($img_src); ?>"       <!-- Path gambar untuk ditampilkan di modal -->
-                                        data-user="<?= htmlspecialchars($nama_user); ?>"         <!-- Nama pengguna untuk modal -->
-                                        data-label="<?= htmlspecialchars($label_ui); ?>"         <!-- Label penyakit untuk modal -->
-                                        data-confidence="<?= round($confidence * 100, 2); ?>%"  <!-- Confidence dalam % untuk modal -->
-                                        data-catatan="<?= htmlspecialchars($catatan ?? '-'); ?>" <!-- Catatan untuk modal -->
-                                        data-waktu="<?= htmlspecialchars($created_at); ?>">      <!-- Waktu untuk modal -->
+                                        data-img_src="<?= htmlspecialchars($img_src); ?>"
+                                        data-user="<?= htmlspecialchars($nama_user); ?>"
+                                        data-label="<?= htmlspecialchars($label_ui); ?>"
+                                        data-confidence="<?= round($confidence * 100, 2); ?>%"
+                                        data-catatan="<?= htmlspecialchars($catatan ?? '-'); ?>"
+                                        data-waktu="<?= htmlspecialchars($created_at); ?>">
                                         <!-- Gambar thumbnail berukuran kecil (max 80x80 piksel) -->
                                         <img src="<?= htmlspecialchars($img_src); ?>"
                                             alt="Gambar daun padi"

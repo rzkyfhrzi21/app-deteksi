@@ -79,7 +79,7 @@ $page = $_GET['page'] ?? 'dashboard';
                             </svg>
                         </div>
                         <div class="sidebar-toggler  x">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                            <a href="#" class="sidebar-hide d-block"><i class="bi bi-x bi-middle"></i></a>
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ $page = $_GET['page'] ?? 'dashboard';
         <!-- ================= MAIN ================= -->
         <div id="main">
             <header class="mb-3">
-                <a href="#" class="burger-btn d-xl-none d-block">
+                <a href="#" class="burger-btn d-block">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
