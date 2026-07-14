@@ -35,6 +35,9 @@
 // Beritahu browser bahwa respons yang dikembalikan adalah format JSON
 header('Content-Type: application/json');
 
+// Ambil Kunci Rahasia dari file yang tidak masuk ke GitHub
+require_once 'config_secret.php';
+
 // ============================================================
 // URL ENDPOINT HEALTH CHECK
 // Endpoint /health di Flask hanya mengembalikan status server —
@@ -64,7 +67,7 @@ curl_setopt_array($curl, [
     CURLOPT_TIMEOUT        => 120,   // Tunggu maksimal 120 detik (cold start bisa ~60 detik)
     CURLOPT_HEADER         => false, // Jangan sertakan header HTTP dalam respons
     CURLOPT_HTTPHEADER     => [      // Sisipkan Kunci Rahasia API agar tidak ditolak Flask
-        'X-API-KEY: SistemPakarDeteksiDaunPadi_2026_Aman'
+        'X-API-KEY: ' . $API_SECRET_KEY
     ],
 ]);
 

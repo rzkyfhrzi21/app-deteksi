@@ -30,6 +30,7 @@ session_start();
 
 // Koneksi ke database MySQL
 require_once 'koneksi.php';
+require_once 'config_secret.php'; // Memuat $API_SECRET_KEY secara aman dari luar Git
 
 // ============================================================
 // KONFIGURASI MODE API
@@ -166,6 +167,7 @@ if (isset($_POST['btn_hapusdeteksi'])) {
 // ============================================================
 function deteksi_penyakit($filePath)
 {
+    global $API_SECRET_KEY; // Ambil kata sandi dari luar fungsi (dari config_secret.php)
     $apiUrl = API_URL; // Ambil URL API dari konstanta yang sudah didefinisikan di atas
 
     // (1) Pastikan file benar-benar ada sebelum mencoba mengirimnya
@@ -198,7 +200,7 @@ function deteksi_penyakit($filePath)
         CURLOPT_POSTFIELDS     => $postFields,     // Isi body POST: file gambar
         CURLOPT_TIMEOUT        => 60,              // Tunggu maksimal 60 detik (antisipasi cold start Render.com)
         CURLOPT_HTTPHEADER     => [                // Sisipkan Kunci Rahasia API
-            'X-API-KEY: SistemPakarDeteksiDaunPadi_2026_Aman'
+            'X-API-KEY: ' . $API_SECRET_KEY
         ],
     ]);
 

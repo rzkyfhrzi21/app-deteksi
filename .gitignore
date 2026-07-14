@@ -19,6 +19,10 @@ Thumbs.db
 .env.production
 .env.local
 
+# File Rahasia / Konfigurasi Lokal
+config_secret.php
+app-deteksi/functions/koneksi.php
+
 # Project Specific (User uploads & reports)
 laporan/*
 !laporan/index.php

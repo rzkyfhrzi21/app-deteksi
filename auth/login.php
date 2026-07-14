@@ -86,55 +86,47 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
     ====================================================== -->
     <style>
         body {
-            background-size: cover;       /* Gambar background menutupi seluruh layar */
-            background-position: center;  /* Pusatkan gambar background */
+            background-color: #f2f7ff;
             display: flex;
-            justify-content: center;      /* Pusatkan konten secara horizontal */
-            align-items: center;          /* Pusatkan konten secara vertikal */
-            height: auto;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
         }
 
-        #auth {
-            background-color: rgba(255, 255, 255, 0.9); /* Kotak putih semi-transparan */
-            border-radius: 15px;                        /* Sudut membulat */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Bayangan halus */
-            padding: 2rem;
-            max-width: 400px;
+        .auth-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem;
+            max-width: 420px;
             width: 100%;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
-        p     { font-size: 16px; }
-        label { font-size: 14px; }
+        p     { font-size: 15px; }
+        label { font-size: 14px; font-weight: 600; }
     </style>
 </head>
 
 <body>
 
-    <!-- Script ini dijalankan SEBELUM halaman tampil untuk menghindari "flash" -->
-    <!-- (layar putih sekejap sebelum dark mode aktif) -->
     <script src="../dashboard/assets/static/js/initTheme.js"></script>
 
-    <div id="app">
-        <div class="content-wrapper container">
-            <div class="row h-100">
-
-                <!-- ======================================================
-                     KARTU FORMULIR LOGIN
-                     Kotak putih di tengah halaman yang berisi:
-                     - Judul "Log In Sistem"
-                     - Kolom username
-                     - Kolom password
-                     - Tombol "Masuk"
-                     - Link ke halaman Daftar
-                ====================================================== -->
-                <div class="card mt-5">
-                    <div class="card-header">
-                        <h2 class="auth-title text-success">Log In Sistem</h2>
-                        <p class="auth-subtitle mb-2">
-                            Hi, Selamat datang di Sistem Deteksi Penyakit Padi 🌱
-                        </p>
-                    </div>
+    <div id="app" class="w-100 px-3">
+        <div class="card auth-card mx-auto border-0">
+            <div class="text-center mb-3">
+                <a href="../index.php" class="text-muted text-decoration-none small font-bold">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Beranda
+                </a>
+            </div>
+            
+            <div class="card-header bg-transparent border-0 text-center pb-0">
+                <h2 class="auth-title text-success mb-2">Log In Sistem</h2>
+                <p class="auth-subtitle mb-2">
+                    Hi, Selamat datang di Sistem Deteksi Penyakit Padi 🌱
+                </p>
+            </div>
 
                     <div class="card-body">
                         <!-- ======================================================
@@ -224,9 +216,6 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
                             <p>© Sistem Deteksi Penyakit Tanaman Padi</p>
                         </div>
                     </div>
-                </div>
-
-            </div>
         </div>
     </div>
 
