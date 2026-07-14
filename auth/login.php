@@ -42,6 +42,7 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow"> <!-- Larang mesin pencari mengindeks halaman login -->
+    <meta name="google-site-verification" content="B-3grk52GvNKKOr4of9bzNMawv2Vht8Geu8oGCtjk7w" />
 
     <title>Login - Sistem Deteksi</title>
 
