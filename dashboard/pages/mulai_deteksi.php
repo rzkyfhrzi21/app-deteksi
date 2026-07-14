@@ -132,6 +132,7 @@ unset($_SESSION['hasil_deteksi']); // Hapus dari session setelah dibaca agar tid
                         
                         <!-- Hidden input agar $_POST['btn_upload_daun'] tetap terkirim meski button asli disabled -->
                         <input type="hidden" name="btn_upload_daun" value="1">
+                        <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row">

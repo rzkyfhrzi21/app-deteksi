@@ -105,31 +105,42 @@ function label_display(string $label): string
 // (4) Redirect kembali ke halaman riwayat
 // ============================================================
 if (isset($_POST['btn_hapusdeteksi'])) {
-    // (1) Ambil data dari form — cast ke integer untuk keamanan (mencegah SQL Injection manual)
-    $id_deteksi = (int) ($_POST['id_deteksi'] ?? 0); // ID baris yang akan dihapus
-    $file_path  = $_POST['file_path'] ?? '';          // Path relatif file gambar
+    // 0. Validasi CSRF Token
+    verify_csrf_token($_POST['csrf_token'] ?? '');
 
-    // (2) Hapus file gambar fisik dari server agar tidak membuang ruang penyimpanan
-    if (!empty($file_path)) {
-        // __DIR__ = lokasi folder functions/ | ../ = naik ke root project
-        $full_path = __DIR__ . '/../' . $file_path; // Bentuk path lengkap di server
-        if (file_exists($full_path)) {
-            @unlink($full_path); // @ untuk supress warning jika file tidak bisa dihapus
-        }
-    }
+    $id_deteksi = (int) ($_POST['id_deteksi'] ?? 0);
 
-    // (3) Hapus baris dari tabel 'hasil_deteksi' menggunakan Prepared Statement
-    // Prepared Statement = cara aman query ke database, mencegah SQL Injection
     if ($id_deteksi > 0 && isset($koneksi) && $koneksi) {
-        $stmt = $koneksi->prepare("DELETE FROM hasil_deteksi WHERE id_deteksi = ?");
-        if ($stmt) {
-            $stmt->bind_param('i', $id_deteksi); // 'i' = integer
-            $stmt->execute();
-            $stmt->close();
+        // 1. Ambil path file langsung dari database (Mencegah Path Traversal)
+        $stmt_select = $koneksi->prepare("SELECT file_path FROM hasil_deteksi WHERE id_deteksi = ?");
+        if ($stmt_select) {
+            $stmt_select->bind_param('i', $id_deteksi);
+            $stmt_select->execute();
+            $result = $stmt_select->get_result();
+            if ($row = $result->fetch_assoc()) {
+                $file_path = $row['file_path'];
+                
+                // 2. Hapus file fisik
+                if (!empty($file_path)) {
+                    $full_path = __DIR__ . '/../' . $file_path;
+                    if (file_exists($full_path)) {
+                        @unlink($full_path);
+                    }
+                }
+                
+                // 3. Hapus baris dari database
+                $stmt_delete = $koneksi->prepare("DELETE FROM hasil_deteksi WHERE id_deteksi = ?");
+                if ($stmt_delete) {
+                    $stmt_delete->bind_param('i', $id_deteksi);
+                    $stmt_delete->execute();
+                    $stmt_delete->close();
+                }
+            }
+            $stmt_select->close();
         }
     }
 
-    // (4) Redirect kembali ke halaman riwayat deteksi
+    // 4. Redirect kembali ke halaman riwayat deteksi
     header('Location: ../dashboard/admin?page=riwayat deteksi');
     exit;
 }
@@ -178,12 +189,17 @@ function deteksi_penyakit($filePath)
     ];
 
     // (4) Atur konfigurasi cURL untuk POST ke API Flask
+    // Keamanan (OWASP Top 10): Menyisipkan 'kata sandi rahasia' (X-API-KEY)
+    // agar server Flask mengenali bahwa kiriman ini resmi dari website kita, bukan dari hacker.
     curl_setopt_array($curl, [
         CURLOPT_URL            => $apiUrl,
         CURLOPT_POST           => true,            // Kirim sebagai POST request
         CURLOPT_RETURNTRANSFER => true,            // Simpan respons Flask ke variabel (jangan langsung print)
         CURLOPT_POSTFIELDS     => $postFields,     // Isi body POST: file gambar
         CURLOPT_TIMEOUT        => 60,              // Tunggu maksimal 60 detik (antisipasi cold start Render.com)
+        CURLOPT_HTTPHEADER     => [                // Sisipkan Kunci Rahasia API
+            'X-API-KEY: SistemPakarDeteksiDaunPadi_2026_Aman'
+        ],
     ]);
 
     // (5) Eksekusi request — PHP mengirim foto ke Flask dan menunggu balasan
@@ -235,6 +251,11 @@ if (!isset($_POST['btn_upload_daun'])) {
     header('Location: ../dashboard/admin?page=mulai deteksi');
     exit;
 }
+
+// ============================================================
+// VALIDASI CSRF TOKEN
+// ============================================================
+verify_csrf_token($_POST['csrf_token'] ?? '');
 
 // ============================================================
 // VALIDASI FILE UPLOAD

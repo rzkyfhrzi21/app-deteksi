@@ -197,6 +197,7 @@ require_once __DIR__ . '/../../functions/data.php';
                                             <!-- Data tersembunyi yang dikirim ke function_deteksi.php -->
                                             <input type="hidden" name="id_deteksi" value="<?= htmlspecialchars($id_deteksi); ?>"> <!-- ID baris di tabel hasil_deteksi -->
                                             <input type="hidden" name="file_path" value="<?= htmlspecialchars($file_path); ?>">   <!-- Path file gambar untuk dihapus dari server -->
+                                            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                                             <div class="modal-footer">
                                                 <!-- Tombol Batal: menutup modal tanpa melakukan apapun -->
                                                 <button type="button"

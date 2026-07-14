@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../functions/koneksi.php';
 // ============================================================
 // FILE: login.php (halaman antarmuka masuk)
 // TUJUAN: Menampilkan formulir login untuk pengguna agar bisa
@@ -41,8 +42,17 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow"> <!-- Larang mesin pencari mengindeks halaman login -->
-    <meta name="google-site-verification" content="B-3grk52GvNKKOr4of9bzNMawv2Vht8Geu8oGCtjk7w" />
+    <meta name="robots" content="index, follow"> <!-- Izinkan mesin pencari merayapi -->
+    <meta name="description" content="Login ke Aplikasi Deteksi Penyakit Tanaman Padi berbasis Machine Learning.">
+    <meta name="keywords" content="Aplikasi Deteksi Penyakit Padi, Sistem Pakar Tanaman Padi, Deteksi Penyakit Daun Padi, Machine Learning Pertanian, Smart Farming Indonesia">
+    <meta name="author" content="Sistem Deteksi Padi">
+    
+    <!-- Open Graph (Untuk Social Media / WhatsApp Share) -->
+    <meta property="og:title" content="Login - Sistem Deteksi Penyakit Padi">
+    <meta property="og:description" content="Masuk ke dashboard untuk mulai mendeteksi penyakit daun padi secara instan menggunakan model Machine Learning.">
+    <meta property="og:image" content="https://deteksi-padi.ngekos.mikrosite.web.id/dashboard/assets/logo.png">
+    <meta property="og:url" content="https://deteksi-padi.ngekos.mikrosite.web.id/auth/login">
+    <meta property="og:type" content="website">
 
     <title>Login - Sistem Deteksi</title>
 
@@ -189,6 +199,9 @@ $usernameLogin = isset($_GET['username']) ? $_GET['username'] : '';
 
                             <!-- Input tersembunyi: role pengguna (selalu "admin" untuk sistem ini) -->
                             <input type="hidden" name="role" value="admin">
+                            
+                            <!-- CSRF Token -->
+                            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
 
                             <!-- ======================================================
                                  TOMBOL MASUK

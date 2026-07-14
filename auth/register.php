@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../functions/koneksi.php';
 // ============================================================
 // FILE: register.php (halaman antarmuka pendaftaran akun baru)
 // TUJUAN: Menampilkan formulir pendaftaran agar calon pengguna
@@ -46,7 +47,17 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow"> <!-- Larang mesin pencari mengindeks halaman ini -->
+    <meta name="robots" content="index, follow"> <!-- Izinkan mesin pencari merayapi -->
+    <meta name="description" content="Daftar akun gratis untuk menggunakan Aplikasi Deteksi Penyakit Tanaman Padi berbasis Machine Learning. Kenali penyakit tanaman secara cepat dan akurat.">
+    <meta name="keywords" content="Aplikasi Deteksi Penyakit Padi, Daftar Sistem Pakar Padi, Deteksi Penyakit Daun Padi, Machine Learning Pertanian, Smart Farming Indonesia">
+    <meta name="author" content="Sistem Deteksi Padi">
+    
+    <!-- Open Graph (Untuk Social Media / WhatsApp Share) -->
+    <meta property="og:title" content="Registrasi - Sistem Deteksi Penyakit Padi">
+    <meta property="og:description" content="Buat akun Anda sekarang untuk menggunakan Sistem Deteksi Penyakit Padi berbasis Machine Learning secara gratis.">
+    <meta property="og:image" content="https://deteksi-padi.ngekos.mikrosite.web.id/dashboard/assets/logo.png">
+    <meta property="og:url" content="https://deteksi-padi.ngekos.mikrosite.web.id/auth/register">
+    <meta property="og:type" content="website">
 
     <title>Registrasi - Sistem Deteksi</title>
     <link rel="shortcut icon" href="../dashboard/assets/logo.png" type="image/x-icon">
@@ -216,6 +227,9 @@ $nama_userLogin = isset($_GET['nama_user']) ? $_GET['nama_user'] : '';
 
                             <!-- Input tersembunyi: role pengguna (selalu "admin" di sistem ini) -->
                             <input type="hidden" name="role" value="admin">
+
+                            <!-- CSRF Token -->
+                            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
 
                             <!-- ======================================================
                                  TOMBOL DAFTAR

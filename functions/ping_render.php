@@ -63,6 +63,9 @@ curl_setopt_array($curl, [
     CURLOPT_RETURNTRANSFER => true,  // Simpan respons ke variabel $response
     CURLOPT_TIMEOUT        => 120,   // Tunggu maksimal 120 detik (cold start bisa ~60 detik)
     CURLOPT_HEADER         => false, // Jangan sertakan header HTTP dalam respons
+    CURLOPT_HTTPHEADER     => [      // Sisipkan Kunci Rahasia API agar tidak ditolak Flask
+        'X-API-KEY: SistemPakarDeteksiDaunPadi_2026_Aman'
+    ],
 ]);
 
 $response = curl_exec($curl);                              // Jalankan request

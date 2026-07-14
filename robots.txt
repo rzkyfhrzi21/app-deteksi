@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /functions/
+Disallow: /db/
+Disallow: /Zzz/
+Disallow: /uploads/
+Disallow: /laporan/
+Disallow: /@agents/
+
+Sitemap: https://deteksi-padi.ngekos.mikrosite.web.id/sitemap.xml
