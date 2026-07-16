@@ -9,32 +9,32 @@ jobs:
   production-deploy:
     name: 🚀 Deploy to cPanel
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v3
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
 
-    - name: 📦 Compress files
-      run: tar -czvf ../deploy.tar.gz --exclude='.git' --exclude='.github' --exclude='db' --exclude='referensi' --exclude='*.sql' --exclude='Zzz' --exclude='README.md' . && mv ../deploy.tar.gz .
+      - name: 📦 Compress files
+        run: tar -czvf ../deploy.tar.gz --exclude='.git' --exclude='.github' --exclude='.rtk' --exclude='db' --exclude='laporan' --exclude='referensi' --exclude='*.sql' --exclude='Zzz' --exclude='README.md' . && mv ../deploy.tar.gz .
 
-    - name: 🚀 Upload via SCP
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        port: ${{ secrets.SSH_PORT }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "deploy.tar.gz"
-        target: "/home/uucdjd7c/deteksi-padi.ngekos.mikrosite.web.id"
+      - name: 🚀 Upload via SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy.tar.gz"
+          target: "/home/uucdjd7c/deteksi-padi.web.id"
 
-    - name: 🛠️ Extract on Server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        port: ${{ secrets.SSH_PORT }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /home/uucdjd7c/deteksi-padi.ngekos.mikrosite.web.id
-          tar -xzvf deploy.tar.gz
-          rm deploy.tar.gz
+      - name: 🛠️ Extract on Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/uucdjd7c/deteksi-padi.web.id
+            tar -xzvf deploy.tar.gz
+            rm deploy.tar.gz
